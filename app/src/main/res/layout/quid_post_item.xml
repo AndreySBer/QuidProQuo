@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="3"
+    android:padding="4dp">
+    <TextView
+        android:id="@+id/content_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:maxLines="2"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="fill_horizontal"
+        android:text="Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title "
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/username_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:layout_column="0"
+        android:layout_row="1"
+        android:text="Author Author"
+        android:textColor="@android:color/black"
+        android:textAppearance="@android:style/TextAppearance.Holo" />
+
+    <TextView
+        android:id="@+id/dateposted_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:maxLines="1"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:text="yesterday"
+        android:layout_marginLeft="16dp"
+        android:layout_gravity="fill_horizontal" />
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/postStateImageView"
+        android:layout_column="2"
+        android:layout_row="0"
+        android:layout_rowSpan="2"
+        android:contentDescription="@string/postStateMarkerHolder" />
+
+</GridLayout>

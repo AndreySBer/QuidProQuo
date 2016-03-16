@@ -1,3 +1,14 @@
+#Remove .idea
+/.idea/*
+
+#Remove libs
+/app/libs/*
+/ParseUI-Widget/*
+
+#remove drawable
+/app/src/main/res/drawable/*
+/app/src/main/res/mipmap*/*
+
 # Built application files
 *.apk
 *.ap_

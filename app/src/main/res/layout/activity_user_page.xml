@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2"
+    tools:context="hse.beryukhov.quidproquo.activities.UserPageActivity">
+
+    <GridLayout
+        android:id="@+id/userMenuLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_row="0"
+        android:background="@color/colorPrimary"
+        android:columnCount="4"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/backToMainButtonU"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_column="0"
+            android:layout_gravity="center_vertical"
+            android:layout_row="0"
+            android:background="#00ffffff"
+            android:clickable="true"
+            android:contentDescription="@string/postButton"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_arrow_back_white_48dp" />
+
+        <TextView
+            android:id="@+id/editProfileTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:layout_row="0"
+            android:maxLines="2"
+            android:singleLine="false"
+            android:text="@string/EditProfile"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@android:color/white"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/tickImageView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_column="2"
+            android:layout_row="0"
+            android:contentDescription="@string/postStateMarkerHolder"
+            android:padding="12dp"
+            android:src="@drawable/ic_done_white_48dp" />
+
+        <ImageView
+            android:id="@+id/logoutButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_column="3"
+            android:layout_row="0"
+            android:contentDescription="@string/postStateMarkerHolder"
+            android:padding="12dp"
+            android:src="@drawable/ic_exit_to_app_white_48dp" />
+
+    </GridLayout>
+
+    <TextView
+        android:id="@+id/generalInfoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_row="1"
+        android:text="@string/generalInfo"
+        android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_gravity="fill_horizontal"
+        android:layout_margin="8dp"
+        android:layout_row="2"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <EditText
+            android:id="@+id/userNametextView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:ems="10"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="@string/userNameText"
+            android:inputType="textPersonName"
+            android:longClickable="false" />
+
+        <EditText
+            android:id="@+id/userEmailtextView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:ems="10"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="@string/userEmailText"
+            android:inputType="textEmailAddress"
+            android:longClickable="false" />
+
+        <EditText
+            android:id="@+id/telegramEditText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:hint="Your Telegram account" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_column="1"
+        android:layout_row="2"
+        android:contentDescription="@string/postStateMarkerHolder"
+        android:src="@drawable/ic_account_box_black_48dp" />
+
+
+    <!--
+        <TextView
+            android:id="@+id/userTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:singleLine="false"
+            android:maxLines="2"
+            android:text="@string/userNameText"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="#003399"
+            android:textStyle="bold|italic"
+            android:layout_marginLeft="4sp"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/userNametextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="8sp"
+            android:layout_row="1"
+            android:singleLine="true"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:typeface="serif"
+            android:layout_marginTop="12dp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_column="2"
+            android:layout_row="1"
+            android:contentDescription="@string/postStateMarkerHolder"
+            android:src="@drawable/ic_account_box_black_48dp" />
+
+        <TextView
+            android:id="@+id/userEmailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="2"
+            android:singleLine="true"
+            android:text="@string/userEmailText"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="#003399"
+            android:textStyle="bold|italic"
+            android:layout_marginLeft="4sp"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/userEmailtextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="8sp"
+            android:layout_row="2"
+            android:singleLine="false"
+            android:maxLines="2"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:typeface="serif"
+            android:layout_marginTop="12dp" />
+            -->
+</GridLayout>

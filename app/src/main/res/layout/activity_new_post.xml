@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="hse.beryukhov.quidproquo.activities.NewPostActivity"
+    android:orientation="vertical">
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@color/colorPrimary"
+        android:columnCount="3"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_column="0"
+            android:layout_gravity="center_vertical"
+            android:layout_row="0"
+            android:clickable="true"
+            android:contentDescription="@string/postButton"
+            android:src="@drawable/ic_arrow_back_white_48dp"
+            android:padding="12dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:layout_row="0"
+            android:maxLines="2"
+            android:singleLine="false"
+            android:text="@string/new_post"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@android:color/white" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_column="2"
+            android:layout_row="0"
+            android:contentDescription="@string/postStateMarkerHolder"
+            android:src="@drawable/ic_done_white_48dp"
+            android:padding="12dp" />
+    </GridLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/newPostNameEditText"
+            android:hint="@string/new_post_name"
+            android:ems="10"
+            android:layout_weight="2"
+            android:layout_gravity="top" />
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/stateSpinner"
+            android:layout_weight="1"
+            android:entries="@array/statelist"
+
+            android:layout_gravity="top" />
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:id="@+id/newPostTextEditText"
+        android:lines="5"
+        android:ems="10"
+        android:hint="@string/new_post_text"
+
+        android:gravity="top" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_post"
+        android:id="@+id/new_post_button"
+
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="@android:color/white"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textSize="14sp"
+        android:textAllCaps="true" />
+
+</LinearLayout>

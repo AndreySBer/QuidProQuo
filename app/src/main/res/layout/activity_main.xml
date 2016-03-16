@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <GridLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/menuLayout"
+        android:background="@color/colorPrimary"
+        android:columnCount="3">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/userImageView"
+
+            android:contentDescription="@string/userImageViewDescr"
+            android:src="@drawable/ic_account_box_white_48dp"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:layout_column="0"
+            android:layout_row="0" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:text="Large Text"
+            android:id="@+id/userNameTextView"
+
+            android:singleLine="false"
+
+            android:maxLines="2"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:textColor="@android:color/white" />
+
+        <!--
+                <ImageButton
+                    android:id="@+id/post_button"
+
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_add_box_white_48dp"
+                    android:contentDescription="@string/postButton"
+                    android:adjustViewBounds="false"
+                    android:background="#00ffffff"
+                    android:clickable="true"
+                    android:scaleType="fitCenter"
+                    android:layout_column="2"
+                    android:layout_row="0" />
+        -->
+        <ImageButton
+            android:id="@+id/set_location_button"
+
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_edit_location_white_48dp"
+            android:contentDescription="@string/postButton"
+            android:background="#00ffffff"
+            android:clickable="true"
+            android:baselineAlignBottom="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="fitCenter"
+            android:layout_column="2"
+            android:layout_row="0" />
+
+
+    </GridLayout>
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/menuLayout"
+        android:id="@+id/swipeRefresh">
+    <ListView
+        android:id="@+id/posts_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/warningTextView"
+            android:layout_alignTop="@+id/swipeRefresh"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp" />
+
+
+    </RelativeLayout>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_circle_black_56dp"
+        fab:fab_colorNormal="@android:color/white"
+        fab:fab_colorPressed="@android:color/white"
+        fab:fab_colorRipple="@android:color/white"
+        android:scaleType="centerCrop" />
+</FrameLayout>
