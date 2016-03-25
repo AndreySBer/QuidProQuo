@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuidProQuo</string>
+    <string name="app_name" translatable="false">QuidProQuo</string>
     <string name="login">Log In</string>
     <string name="signup">Sign Up</string>
 
@@ -9,7 +9,7 @@
     <string name="app_author">phansier</string>
     <string name="editNameHint">Username</string>
     <string name="editPasswHint">Password</string>
-    <string name="editEmailHint">Email</string>
+    <string name="editEmailHint" translatable="false">Email</string>
     <string name="signUpButton">Sign Up for Quid</string>
     <string name="logInButton">Log In for Quid</string>
     <string name="logOutButton">Log Out</string>
@@ -21,8 +21,8 @@
     <string name="new_post_name">Title</string>
     <string name="new_post_text">Description</string>
     <string name="userImageViewDescr">userpic</string>
-    <string name="editButtonHolder">Button for editing if post is your</string>
-    <string name="postStateMarkerHolder">PostStateMarker</string>
+    <!--<string name="editButtonHolder">Button for editing if post is your</string>-->
+    <string name="postStateMarkerHolder" translatable="false">PostStateMarker</string>
     <string-array name="statelist">
         <item>Ask</item>
         <item>Suggest</item>
@@ -35,8 +35,8 @@
         <item>2500 m</item>
         <item>5000 m</item>
     </string-array>
-    <string name="title_activity_post_info">PostInfoActivity</string>
-    <string name="post_id">post_id</string>
+    <!--<string name="title_activity_post_info">PostInfoActivity</string>-->
+    <!--<string name="post_id">post_id</string>-->
     <string name="authorText">Author: </string>
     <string name="descriptionText">Description:</string>
     <string name="Comment">Your comment..</string>
@@ -51,7 +51,7 @@
     <string name="find_location_button">Find Location Using Hardware</string>
     <string name="address_hint">Input address</string>
     <string name="find_address">Find Address</string>
-    <string name="image_intro">image</string>
+    <!--<string name="image_intro">image</string>-->
     <string name="post">Post</string>
     <string name="generalInfo">GENERAL INFO</string>
     <string name="warning_no_records">In this location no records. Add first)</string>
@@ -60,5 +60,10 @@
 
 
     <integer name="com_vk_sdk_AppId">5339203</integer>
-    <string name="facebook_app_id">1724818171123780</string>
+    <string name="facebook_app_id" translatable="false">1724818171123780</string>
+    <string name="SearchDistanceHint">Search Distance:</string>
+    <string name="ShareButtonContentDescription">Share</string>
+    <string name="ShowMapButton">Show post on Map</string>
+    <string name="TelegramAccountHint">Your Telegram account</string>
+    <string name="resetPW">Reset Password</string>
 </resources>

@@ -119,51 +119,52 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
                 //Toast.makeText(GetLocationActivity.this, String.format("Location setted: %1$f:%2$f", location.getLatitude(), location.getLongitude()), Toast.LENGTH_LONG).show();
                 //JsonObjectRequest
                 //Toast.makeText(GetLocationActivity.this,getJSON("https://geocode-maps.yandex.ru/1.x/?geocode=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0,+%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%B0%D1%8F+%D1%83%D0%BB%D0%B8%D1%86%D0%B0,+%D0%B4%D0%BE%D0%BC+7&format=json"),Toast.LENGTH_LONG).show();
-                if (fATV.getText().toString()==""){
+                if (fATV.getText().toString() == "" || fATV.getText() == null) {
                     Toast.makeText(GetLocationActivity.this, "Please complete the address field.", Toast.LENGTH_LONG).show();
                     return;
-                }
-                try {
-                    String request = getJSON("https://geocode-maps.yandex.ru/1.x/?geocode="
-                            + fATV.getText().toString()
-                            + "&format=json&results=1");
+                } else {
+                    try {
+                        String request = getJSON("https://geocode-maps.yandex.ru/1.x/?geocode="
+                                + fATV.getText().toString()
+                                + "&format=json&results=1");
 
-                    JSONObject ob = new JSONObject(request);
-                    int found = ob.getJSONObject("response")
-                            .getJSONObject("GeoObjectCollection")
-                            .getJSONObject("metaDataProperty")
-                            .getJSONObject("GeocoderResponseMetaData")
-                            .getInt("found");
-
-                    int results = ob.getJSONObject("response")
-                            .getJSONObject("GeoObjectCollection")
-                            .getJSONObject("metaDataProperty")
-                            .getJSONObject("GeocoderResponseMetaData")
-                            .getInt("results");
-
-                    Log.i("found", String.valueOf(found));
-                    Log.i("results", String.valueOf(results));
-
-                    if (found > 0 && results > 0) {
-                        String pos = ob.getJSONObject("response")
+                        JSONObject ob = new JSONObject(request);
+                        int found = ob.getJSONObject("response")
                                 .getJSONObject("GeoObjectCollection")
-                                .getJSONArray("featureMember")
-                                .getJSONObject(0)
-                                .getJSONObject("GeoObject")
-                                .getJSONObject("Point")
-                                .getString("pos");
+                                .getJSONObject("metaDataProperty")
+                                .getJSONObject("GeocoderResponseMetaData")
+                                .getInt("found");
 
-                        location = new Location("");
-                        location.setLongitude(Double.parseDouble(pos.split(" ")[0]));
-                        location.setLatitude(Double.parseDouble(pos.split(" ")[1]));
+                        int results = ob.getJSONObject("response")
+                                .getJSONObject("GeoObjectCollection")
+                                .getJSONObject("metaDataProperty")
+                                .getJSONObject("GeocoderResponseMetaData")
+                                .getInt("results");
 
-                        Toast.makeText(GetLocationActivity.this, String.format("Location setted: %1$f:%2$f", location.getLatitude(), location.getLongitude()), Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(GetLocationActivity.this, "Can't find this address. Try to refine the query.", Toast.LENGTH_LONG).show();
+                        Log.i("found", String.valueOf(found));
+                        Log.i("results", String.valueOf(results));
+
+                        if (found > 0 && results > 0) {
+                            String pos = ob.getJSONObject("response")
+                                    .getJSONObject("GeoObjectCollection")
+                                    .getJSONArray("featureMember")
+                                    .getJSONObject(0)
+                                    .getJSONObject("GeoObject")
+                                    .getJSONObject("Point")
+                                    .getString("pos");
+
+                            location = new Location("");
+                            location.setLongitude(Double.parseDouble(pos.split(" ")[0]));
+                            location.setLatitude(Double.parseDouble(pos.split(" ")[1]));
+
+                            Toast.makeText(GetLocationActivity.this, String.format("Location setted: %1$f:%2$f", location.getLatitude(), location.getLongitude()), Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(GetLocationActivity.this, "Can't find this address. Try to refine the query.", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(GetLocationActivity.this, "Something went wrong...", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    Toast.makeText(GetLocationActivity.this, "Something went wrong...", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
                 }
             }
         });
@@ -225,12 +226,12 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
 
         return null;
     }
-
+@Override
     protected void onStart() {
         locationClient.connect();
         super.onStart();
     }
-
+@Override
     protected void onStop() {
         locationClient.disconnect();
         super.onStop();

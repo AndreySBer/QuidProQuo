@@ -41,8 +41,8 @@
         <activity android:name=".activities.NewPostActivity" />
         <activity android:name=".activities.UserPageActivity" />
         <activity
-            android:name=".activities.PostInfoActivity"
-            android:label="@string/title_activity_post_info" />
+            android:name=".activities.PostInfoActivity"/>
+            <!--android:label="@string/title_activity_post_info" />-->
         <activity android:name=".activities.GetLocationActivity" />
     </application>
 

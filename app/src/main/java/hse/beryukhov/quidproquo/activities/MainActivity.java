@@ -1,5 +1,6 @@
 package hse.beryukhov.quidproquo.activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Location;
@@ -33,7 +34,7 @@ import hse.beryukhov.quidproquo.R;
 import static hse.beryukhov.quidproquo.DataTransform.GetTimePassedTillNow;
 
 
-public class MainActivity extends FragmentActivity //implements LocationListener,
+public class MainActivity extends Activity //implements LocationListener, //extends FragmentActivity
         //GoogleApiClient.ConnectionCallbacks,
         //GoogleApiClient.OnConnectionFailedListener
 {
@@ -176,7 +177,7 @@ public class MainActivity extends FragmentActivity //implements LocationListener
                     usernameView.setText(post.getAuthor().getUsername());
 
                     TextView datePosted = (TextView) view.findViewById(R.id.dateposted_view);
-                    datePosted.setText(GetTimePassedTillNow(post.getCreatedAt()));
+                    datePosted.setText(GetTimePassedTillNow(post.getCreatedAt(),MainActivity.this));
                     /*if (post.getAuthor() == ParseUser.getCurrentUser()) {
                         ImageButton settings = (ImageButton) view.findViewById(R.id.myPostSettingsImageButton);
                         settings.setVisibility(View.VISIBLE);

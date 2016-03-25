@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="yesterday">вчера</string>
+    <string name="warning_no_records">В этом местоположении еще нет постов. Добавьте первый)</string>
+    <string name="warning_no_location">Определите местоположение, чтобы увидеть посты</string>
+    <string name="userNameText">Ваше уникальное имя (ник)</string>
+    <string name="userImageViewDescr">Картинка пользователя</string>
+    <string name="Cancel">Отмена</string>
+    <string name="Comment">Ваш комментарий..</string>
+    <string name="CommentAdd">Добавить</string>
+    <string name="EditProfile">Изменить профиль</string>
+    <string name="SearchDistanceHint">Радиус поиска:</string>
+    <string name="ShareButtonContentDescription">Поделиться</string>
+    <string name="ShowMapButton">Показать пост на карте</string>
+    <string name="TelegramAccountHint">Ваш аккаунт в Telegram</string>
+    <string name="addComent">Добавить</string>
+    <string name="address_hint">Введите адрес</string>
+    <string name="app_author">Андрей Берюхов</string>
+    <string name="app_slogan">Легкий способ помочь или спросить своих соседей</string>
+    <string name="authorText">Добавил:</string>
+    <string name="descriptionText">Описание:</string>
+    <string name="dialog_logout_message">Вы уверены, что хотите выйти из системы?</string>
+    <string name="dialog_logout_title">Сменить пользователя</string>
+
+    <string name="editNameHint">Имя пользователя</string>
+    <string name="editPasswHint">Пароль</string>
+    <string name="find_address">Найти по адресу</string>
+    <string name="find_location_button">Определить местоположение через геолокацию</string>
+    <string name="generalInfo">ОСНОВНАЯ ИНФОРМАЦИЯ</string>
+    <string name="logInButton">Войти</string>
+    <string name="logOutButton">Выйти</string>
+    <string name="login">Войти</string>
+    <string name="login_page_cool">Это просто и быстро</string>
+    <string name="new_post">Добавить новую запись</string>
+    <string name="new_post_name">Заголовок</string>
+    <string name="new_post_text">Описание</string>
+    <string name="post">Пост</string>
+    <string name="postButton">Новый пост</string>
+    <string name="postNameLengthTooLong">Имя поста слишком длинное (максимально 50 символов)</string>
+
+    <string name="signup">Зарегистрироваться</string>
+    <string name="signUpButton">Зарегистрироваться</string>
+    <string name="userEmailText">Ваш Email</string>
+    <string name="reqPW"><u>Забыли пароль?</u></string>
+    <string name="set_location">Определить местоположение</string>
+    <string name="powered_by">Создатель</string>
+    <string name="resetPW">Восстановить пароль</string>
+</resources>

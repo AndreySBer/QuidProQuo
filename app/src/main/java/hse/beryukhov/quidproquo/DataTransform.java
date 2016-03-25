@@ -1,5 +1,7 @@
 package hse.beryukhov.quidproquo;
 
+import android.content.Context;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -7,7 +9,7 @@ import java.util.GregorianCalendar;
 
 
 public class DataTransform {
-    private static String GetTimePassed(Date date, Date now) {
+    private static String GetTimePassed(Date date, Date now, Context context) {
         Calendar cdate = new GregorianCalendar();
         cdate.setTime(date);
 
@@ -26,7 +28,7 @@ public class DataTransform {
                         cdate.get(Calendar.YEAR) == cnow.get(Calendar.YEAR))
                 //it means that the date is yesterday
                 {
-                    return "yesterday";
+                    return context.getResources().getString(R.string.yesterday);
                 } else
                 //this year but not today and not yesterday
                 {
@@ -41,8 +43,8 @@ public class DataTransform {
         }
     }
 
-    public static String GetTimePassedTillNow(Date date) {
-        return GetTimePassed(date, new Date());
+    public static String GetTimePassedTillNow(Date date, Context context) {
+        return GetTimePassed(date, new Date(), context);
     }
 
 }

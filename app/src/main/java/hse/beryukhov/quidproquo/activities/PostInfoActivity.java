@@ -173,7 +173,7 @@ public class PostInfoActivity extends Activity {
                 {authorName.setText(author);}
                 else {Log.i("author",comment.getAuthor().toString());}*/
                 authorName.setText(comment.getAuthor().getUsername());
-                dateTime.setText(GetTimePassedTillNow(comment.getCreatedAt()));
+                dateTime.setText(GetTimePassedTillNow(comment.getCreatedAt(),PostInfoActivity.this));
 
                 return view;
             }
@@ -304,7 +304,7 @@ public class PostInfoActivity extends Activity {
 
                     authorText.setText(thisPost.getAuthor().getUsername());
                     postName.setText(thisPost.getName());
-                    date.setText(GetTimePassedTillNow(thisPost.getCreatedAt()));
+                    date.setText(GetTimePassedTillNow(thisPost.getCreatedAt(),PostInfoActivity.this));
                     descripText.setText(thisPost.getText());
                     location = new Location("");
                     location.setLatitude(thisPost.getLocation().getLatitude());

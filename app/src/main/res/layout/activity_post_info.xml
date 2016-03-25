@@ -65,7 +65,8 @@
             android:actionProviderClass="android.widget.ShareActionProvider"
             android:background="#00ffffff"
             android:padding="8dp"
-            android:src="@android:drawable/ic_menu_share" />
+            android:src="@android:drawable/ic_menu_share"
+            android:contentDescription="@string/ShareButtonContentDescription" />
     </GridLayout>
 <!--android:layout_column="0"
         android:layout_row="1"-->
@@ -127,7 +128,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_row="1"
                 android:gravity="top"
-                android:text="TitleIsAboutSavingOurCodeFromSomeStupidProggers"
+                android:text="Title"
                 android:textAppearance="@android:style/TextAppearance.Holo.Medium"
                 android:textStyle="bold|italic" />
 
@@ -161,7 +162,7 @@
                 android:drawableRight="@android:drawable/ic_dialog_map"
                 android:paddingRight="16dp"
                 android:paddingLeft="16dp"
-                android:text="Show post on Map"
+                android:text="@string/ShowMapButton"
                 android:textColor="@android:color/white" />
 
         </GridLayout>
