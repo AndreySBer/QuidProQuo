@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="hse.beryukhov.quidproquo">
+    package="hse.beryukhov.quidproquo" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-feature android:name="android.hardware.camera" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".Application"
@@ -16,7 +16,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="00OyqN4q6wwJ3ieRmBEKqEJNtMayScc5IyJ6iqaa" />
@@ -27,7 +27,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".activities.DispatchActivity">
+        <activity android:name=".activities.DispatchActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,10 +39,10 @@
         <activity android:name=".activities.SignUpActivity" />
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.NewPostActivity" />
-        <activity android:name=".activities.UserPageActivity" />
-        <activity
-            android:name=".activities.PostInfoActivity"/>
-            <!--android:label="@string/title_activity_post_info" />-->
+
+        <activity android:name=".activities.UserPageActivityNew" />
+        <activity android:name=".activities.PostInfoActivity" />
+        <!-- android:label="@string/title_activity_post_info" /> -->
         <activity android:name=".activities.GetLocationActivity" />
     </application>
 

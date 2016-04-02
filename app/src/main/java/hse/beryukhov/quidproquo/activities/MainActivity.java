@@ -3,10 +3,18 @@ package hse.beryukhov.quidproquo.activities;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
@@ -18,9 +26,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
 import com.melnykov.fab.FloatingActionButton;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -34,35 +43,27 @@ import hse.beryukhov.quidproquo.R;
 import static hse.beryukhov.quidproquo.DataTransform.GetTimePassedTillNow;
 
 
-public class MainActivity extends Activity //implements LocationListener, //extends FragmentActivity
-        //GoogleApiClient.ConnectionCallbacks,
-        //GoogleApiClient.OnConnectionFailedListener
-{
+public class MainActivity extends Activity {
 
     private static final int MAX_POST_SEARCH_RESULTS = 50;
-    private static final int UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
-    private static final int FAST_INTERVAL_CEILING_IN_MILLISECONDS = 1000;
-    private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final float METERS_PER_KILOMETER = 1000;
     private ParseQueryAdapter<QuidPost> postsQueryAdapter;
     private String selectedPostObjectId;
     private SwipeRefreshLayout swipeRefresh;
-
-    private LocationRequest locationRequest;
-    private GoogleApiClient locationClient;
     private Location currentLocation;
     private Location lastLocation;
     // Fields for the search radius in meters
     private int radius = 1000;
-
     private ListView postsListView;
     private TextView warningTextView;
     private ProgressDialog dialog;
+    private ImageView userpic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_blind);
+
 
         Intent intent = getIntent();
         currentLocation = intent.getParcelableExtra(Application.INTENT_EXTRA_LOCATION);
@@ -70,19 +71,8 @@ public class MainActivity extends Activity //implements LocationListener, //exte
         if (searchDistance != null)
             try {
                 radius = Integer.parseInt(searchDistance.substring(0, searchDistance.length() - 2));
-                //Log.i("parseInt search dist", String.format("%1$d",radius));
             } catch (NumberFormatException e) {
-                //Log.e("parseInt search dist", searchDistance);
             }
-        //else{
-            //Log.e("parseInt search dist", "null");
-        //}
-
-/*
-        if (currentLocation == null) {
-            startLocationActivity();
-        }
-*/
         warningTextView = (TextView) findViewById(R.id.warningTextView);
         warningTextView.setVisibility(View.INVISIBLE);
 
@@ -94,40 +84,29 @@ public class MainActivity extends Activity //implements LocationListener, //exte
         userpicImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, UserPageActivity.class));
+                startActivity(new Intent(MainActivity.this, UserPageActivityNew.class));
             }
         });
 
+
         //Show UserName in Menu String
         TextView userNameTextView = (TextView) findViewById(R.id.userNameTextView);
-        userNameTextView.setText(ParseUser.getCurrentUser().getUsername());
-/*
-        //New Post button click handler
-        ImageButton newPostButton = (ImageButton) findViewById(R.id.post_button);
-        newPostButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Location myLoc = (currentLocation == null) ? lastLocation : currentLocation;
-                        if (myLoc == null) {
-                            Toast.makeText(MainActivity.this,
-                                    "We can't find your location. Please try later.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
-                        intent.putExtra(Application.INTENT_EXTRA_LOCATION, myLoc);
-                        startActivity(intent);
-                    }
-                }
+        userNameTextView.setText(ParseUser.getCurrentUser().
+
+                        getUsername()
+
         );
-*/
         ImageButton setLocationButton = (ImageButton) findViewById(R.id.set_location_button);
-        setLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startLocationActivity();
-            }
-        });
+        setLocationButton.setOnClickListener(new View.OnClickListener()
+
+                                             {
+                                                 @Override
+                                                 public void onClick(View v) {
+                                                     startLocationActivity();
+                                                 }
+                                             }
+
+        );
 
         {
 
@@ -151,15 +130,12 @@ public class MainActivity extends Activity //implements LocationListener, //exte
             ParseQueryAdapter.QueryFactory<QuidPost> factory =
                     new ParseQueryAdapter.QueryFactory<QuidPost>() {
                         public ParseQuery<QuidPost> create() {
-                            //Location myLoc = (currentLocation == null) ? lastLocation : currentLocation;
                             ParseQuery<QuidPost> query = QuidPost.getQuery();
                             query.include("author");
-
                             query.orderByDescending("createdAt");
-                            //if (myLoc != null) {
                             query.whereWithinKilometers("location", geoPointFromLocation(currentLocation), radius / METERS_PER_KILOMETER);
-                            //}
-                            //query.setLimit(MAX_POST_SEARCH_RESULTS);
+
+                            query.setLimit(MAX_POST_SEARCH_RESULTS);
                             return query;
                         }
                     };
@@ -177,7 +153,7 @@ public class MainActivity extends Activity //implements LocationListener, //exte
                     usernameView.setText(post.getAuthor().getUsername());
 
                     TextView datePosted = (TextView) view.findViewById(R.id.dateposted_view);
-                    datePosted.setText(GetTimePassedTillNow(post.getCreatedAt(),MainActivity.this));
+                    datePosted.setText(GetTimePassedTillNow(post.getCreatedAt(), MainActivity.this));
                     /*if (post.getAuthor() == ParseUser.getCurrentUser()) {
                         ImageButton settings = (ImageButton) view.findViewById(R.id.myPostSettingsImageButton);
                         settings.setVisibility(View.VISIBLE);
@@ -224,48 +200,52 @@ public class MainActivity extends Activity //implements LocationListener, //exte
                 }
             });
         }
-
         //listener for swipe to refresh
-
-        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        swipeRefresh = (SwipeRefreshLayout)
+                findViewById(R.id.swipeRefresh);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefresh.setRefreshing(true);
-                doListQuery();
-                swipeRefresh.setRefreshing(false);
-            }
-        });
-    /*
-    * There starts first block of code, which is not obvious,
-    * but it seems to be need for finding location in this mortal world
-    *
+                                              @Override
+                                              public void onRefresh() {
+                                                  swipeRefresh.setRefreshing(true);
+                                                  doListQuery();
+                                                  swipeRefresh.setRefreshing(false);
+                                              }
+                                          }
+        );
+        // Lookup navigation view
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        // Inflate the header view at runtime
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        // We can now look up items within the header if needed
+        userpic = (ImageView) headerLayout.findViewById(R.id.userPic);
+        ((TextView) headerLayout.findViewById(R.id.userName)).setText(ParseUser.getCurrentUser().getUsername());
 
-        // Create a new global location parameters object
-        locationRequest = LocationRequest.create();
-        locationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setFastestInterval(FAST_INTERVAL_CEILING_IN_MILLISECONDS);
+        userpic.setVisibility(View.INVISIBLE);
+        ParseFile photoFile = (ParseFile) ParseUser.getCurrentUser().get(Application.USER_PHOTO);
+        if (photoFile != null) {
+            photoFile.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    Bitmap img = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    Bitmap roundImg = ImageHelper.getRoundedCornerBitmap(img, img.getWidth() / 2);
+                    userpic.setImageBitmap(roundImg);
 
-        // Create a new location client, using the enclosing class to handle callbacks.
-        locationClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        /*
-    * There ends first block of code, which is not obvious,
-    * but it seems to be need for finding location in this mortal world
-    */
+                    userpic.setVisibility(View.VISIBLE);
+                    Log.i("done", "done");
+                }
+            });
+        }
+        //todo what is shown where there no userpic
+        else {
+            userpic.setVisibility(View.VISIBLE);
+        }
+        //setContentView(R.layout.activity_main_blind);
     }
 
     private void doListQuery() {
-        //Location myLoc = (currentLocation == null) ? lastLocation : currentLocation;
-        // If location info is available, load the data
         if (currentLocation != null) {
             // Refreshes the list view with new data based
             // usually on updated location data.
-            //Toast.makeText(MainActivity.this, "do query", Toast.LENGTH_LONG).show();
 
             dialog.show();
             postsQueryAdapter.loadObjects();
@@ -276,10 +256,8 @@ public class MainActivity extends Activity //implements LocationListener, //exte
                 warningTextView.setVisibility(View.INVISIBLE);
             }
         } else {
-            //Toast.makeText(MainActivity.this, "Can't find your location. Please try later.", Toast.LENGTH_LONG).show();
             warningTextView.setText(R.string.warning_no_location);
             warningTextView.setVisibility(View.VISIBLE);
-            //startLocationActivity();
         }
     }
 
@@ -303,146 +281,34 @@ public class MainActivity extends Activity //implements LocationListener, //exte
     @Override
     protected void onResume() {
         super.onResume();
-        //Log.i("Resume", "1");
         onStart();
-        //Log.i("Resume", "2");
-        //Log.i("GeoPoint",currentLocation.toString());
         doListQuery();
     }
 
     private ParseGeoPoint geoPointFromLocation(Location loc) {
         return new ParseGeoPoint(loc.getLatitude(), loc.getLongitude());
     }
-    /*
-        * There starts second large block of code, which is not obvious,
-        * but it seems to be need for finding location in this mortal world
-        *
-    private boolean servicesConnected() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
-        if (ConnectionResult.SUCCESS == resultCode) {
-            return true;
-        } else {
-            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, this, 0);
-            dialog.show();
-            return false;
+    public static class ImageHelper {
+        public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
+            Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
+                    .getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(output);
+
+            final int color = 0xff424242;
+            final Paint paint = new Paint();
+            final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+            final RectF rectF = new RectF(rect);
+
+            paint.setAntiAlias(true);
+            canvas.drawARGB(0, 0, 0, 0);
+            paint.setColor(color);
+            canvas.drawRoundRect(rectF, pixels, pixels, paint);
+
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+            canvas.drawBitmap(bitmap, rect, rect, paint);
+
+            return output;
         }
     }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        Log.i("Location changed", "OnLocationChanged()");
-        currentLocation = location;
-        if (lastLocation != null
-                && geoPointFromLocation(location)
-                .distanceInKilometersTo(geoPointFromLocation(lastLocation)) < 0.01) {
-            return;
-        }
-        lastLocation = location;
-        doListQuery();
-    }
-
-
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        Log.i("Location changed", "onConnected()");
-        currentLocation = getLocation();
-        startPeriodicUpdates();
-        doListQuery();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        if (connectionResult.hasResolution()) {
-            try {
-                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
-            } catch (IntentSender.SendIntentException e) {
-            }
-        } else {
-            showErrorDialog(connectionResult.getErrorCode());
-        }
-    }
-
-    private void showErrorDialog(int errorCode) {
-        // Get the error dialog from Google Play services
-        Dialog errorDialog =
-                GooglePlayServicesUtil.getErrorDialog(errorCode, this,
-                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
-
-        // If Google Play services can provide an error dialog
-        if (errorDialog != null) {
-
-            // Create a new DialogFragment in which to show the error dialog
-            errorDialog.show();
-        }
-    }
-
-    private void startPeriodicUpdates() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
-                return;
-            }
-        }
-        LocationServices.FusedLocationApi.requestLocationUpdates(locationClient, locationRequest, this);
-    }
-
-    private void stopPeriodicUpdates() {
-        locationClient.disconnect();
-    }
-
-    private Location getLocation() {
-        if (servicesConnected()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for Activity#requestPermissions for more details.
-                    return null;
-                }
-            }
-            return LocationServices.FusedLocationApi.getLastLocation(locationClient);
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public void onStop() {
-        if (locationClient.isConnected()) {
-            stopPeriodicUpdates();
-        }
-        locationClient.disconnect();
-
-        super.onStop();
-    }
-
-    @Override
-    public void onStart(){
-        Log.i("Start", "Start");
-        super.onStart();
-
-        locationClient.connect();
-    }
-    /*
-    * There ENDs large block of code, which is not obvious,
-    * but it seems to be need for finding location in this mortal world
-    */
-
 }

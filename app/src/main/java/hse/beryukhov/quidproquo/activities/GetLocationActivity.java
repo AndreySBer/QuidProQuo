@@ -34,8 +34,6 @@ import java.net.URL;
 import hse.beryukhov.quidproquo.Application;
 import hse.beryukhov.quidproquo.R;
 
-//import org.json.*;
-
 public class GetLocationActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private Location location;
     private GoogleApiClient locationClient;
@@ -100,7 +98,6 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
                     */
                 } else {
                     Toast.makeText(GetLocationActivity.this, "Can't get your location. Please try later or by address", Toast.LENGTH_LONG).show();
-                    //findLocation.setClickable(false);
                 }
             }
         });
@@ -111,14 +108,6 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
             @Override
             public void onClick(View v) {
 
-                //deprecated
-                //Tambov and hardcode are my enemies
-                //location = new Location("");
-                //location.setLongitude(41.452238);
-                //location.setLatitude(52.721246);
-                //Toast.makeText(GetLocationActivity.this, String.format("Location setted: %1$f:%2$f", location.getLatitude(), location.getLongitude()), Toast.LENGTH_LONG).show();
-                //JsonObjectRequest
-                //Toast.makeText(GetLocationActivity.this,getJSON("https://geocode-maps.yandex.ru/1.x/?geocode=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0,+%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%B0%D1%8F+%D1%83%D0%BB%D0%B8%D1%86%D0%B0,+%D0%B4%D0%BE%D0%BC+7&format=json"),Toast.LENGTH_LONG).show();
                 if (fATV.getText().toString() == "" || fATV.getText() == null) {
                     Toast.makeText(GetLocationActivity.this, "Please complete the address field.", Toast.LENGTH_LONG).show();
                     return;
@@ -182,7 +171,6 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
             public void onClick(View v) {
                 Intent intent = new Intent(GetLocationActivity.this, MainActivity.class);
                 intent.putExtra(Application.INTENT_EXTRA_LOCATION, location);
-                //Log.i(Application.INTENT_EXTRA_SEARCH_DISTANCE,spinner.getSelectedItem().toString());
                 intent.putExtra(Application.INTENT_EXTRA_SEARCH_DISTANCE, spinner.getSelectedItem().toString());
                 startActivity(intent);
             }
@@ -213,14 +201,12 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
                     sb.append("\n");
                 }
                 br.close();
-                //findAddress.setBackgroundColor(Color.RED);
                 return sb.toString();
             } else {
                 Log.e("RESP", "Ответ сервера: " + resp);
             }
 
         } catch (Exception e) {
-            //Log.i("JSON","here");
             e.printStackTrace();
         }
 

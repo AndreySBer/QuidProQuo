@@ -126,82 +126,13 @@
             android:hint="@string/TelegramAccountHint" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView"
+    <com.parse.ParseImageView
+        android:id="@+id/userPicImageViewfr"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_column="1"
         android:layout_row="2"
         android:contentDescription="@string/postStateMarkerHolder"
-        android:src="@drawable/ic_account_box_black_48dp" />
-
-
-    <!--
-        <TextView
-            android:id="@+id/userTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_row="1"
-            android:singleLine="false"
-            android:maxLines="2"
-            android:text="@string/userNameText"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-            android:textColor="#003399"
-            android:textStyle="bold|italic"
-            android:layout_marginLeft="4sp"
-            android:layout_marginTop="12dp" />
-
-        <TextView
-            android:id="@+id/userNametextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_gravity="fill_horizontal"
-            android:layout_marginLeft="8sp"
-            android:layout_row="1"
-            android:singleLine="true"
-            android:text=""
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:typeface="serif"
-            android:layout_marginTop="12dp" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_column="2"
-            android:layout_row="1"
-            android:contentDescription="@string/postStateMarkerHolder"
-            android:src="@drawable/ic_account_box_black_48dp" />
-
-        <TextView
-            android:id="@+id/userEmailTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_row="2"
-            android:singleLine="true"
-            android:text="@string/userEmailText"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-            android:textColor="#003399"
-            android:textStyle="bold|italic"
-            android:layout_marginLeft="4sp"
-            android:layout_marginTop="12dp" />
-
-        <TextView
-            android:id="@+id/userEmailtextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_gravity="fill_horizontal"
-            android:layout_marginLeft="8sp"
-            android:layout_row="2"
-            android:singleLine="false"
-            android:maxLines="2"
-            android:text=""
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:typeface="serif"
-            android:layout_marginTop="12dp" />
-            -->
+        android:src="@drawable/ic_account_box_black_48dp"
+        android:scaleType="fitXY" />
 </GridLayout>

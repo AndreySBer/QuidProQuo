@@ -24,6 +24,7 @@ public class Application extends android.app.Application {
     public static final String INTENT_EXTRA_SEARCH_DISTANCE = "searchDist";
     public static final String TELEGRAM_ACCOUNT="TelegramUsername";
     public static final String ISPREMIUM="isPremium";
+    public static final String USER_PHOTO ="userPhoto" ;
 
     /*VKAccessTokenTracker vkAccessTokenTracker = new VKAccessTokenTracker() {
         @Override

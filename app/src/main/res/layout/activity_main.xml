@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:fab="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
@@ -45,23 +46,6 @@
             android:layout_row="0"
             android:textColor="@android:color/white" />
 
-        <!--
-                <ImageButton
-                    android:id="@+id/post_button"
-
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_add_box_white_48dp"
-                    android:contentDescription="@string/postButton"
-                    android:adjustViewBounds="false"
-                    android:background="#00ffffff"
-                    android:clickable="true"
-                    android:scaleType="fitCenter"
-                    android:layout_column="2"
-                    android:layout_row="0" />
-        -->
         <ImageButton
             android:id="@+id/set_location_button"
 
