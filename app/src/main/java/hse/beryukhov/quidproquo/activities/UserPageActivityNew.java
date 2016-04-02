@@ -89,7 +89,10 @@ public class UserPageActivityNew extends Activity {
                                         }
         );
         final EditText telegram = (EditText) findViewById(R.id.telegramEditText);
-
+        String telegram_acc=(String)ParseUser.getCurrentUser().get(Application.TELEGRAM_ACCOUNT);
+        if (telegram_acc!=null){
+            telegram.setText(telegram_acc);
+        }
 
         ImageView tick = (ImageView) findViewById(R.id.tickImageView);
         tick.setOnClickListener(new View.OnClickListener() {
@@ -134,39 +137,43 @@ public class UserPageActivityNew extends Activity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//todo check of cancel
-        Bitmap srcBmp = (Bitmap) data.getExtras().get("data");
-        Bitmap dstBmp;
-        if (srcBmp.getWidth() >= srcBmp.getHeight()) {
+        if (resultCode == RESULT_OK) {
+            //todo check of cancel
+            Bitmap srcBmp = (Bitmap) data.getExtras().get("data");
+            Bitmap dstBmp;
+            if (srcBmp.getWidth() >= srcBmp.getHeight()) {
 
-            dstBmp = Bitmap.createBitmap(
-                    srcBmp,
-                    srcBmp.getWidth() / 2 - srcBmp.getHeight() / 2,
-                    0,
-                    srcBmp.getHeight(),
-                    srcBmp.getHeight()
-            );
+                dstBmp = Bitmap.createBitmap(
+                        srcBmp,
+                        srcBmp.getWidth() / 2 - srcBmp.getHeight() / 2,
+                        0,
+                        srcBmp.getHeight(),
+                        srcBmp.getHeight()
+                );
 
-        } else {
+            } else {
 
-            dstBmp = Bitmap.createBitmap(
-                    srcBmp,
-                    0,
-                    srcBmp.getHeight() / 2 - srcBmp.getWidth() / 2,
-                    srcBmp.getWidth(),
-                    srcBmp.getWidth()
-            );
+                dstBmp = Bitmap.createBitmap(
+                        srcBmp,
+                        0,
+                        srcBmp.getHeight() / 2 - srcBmp.getWidth() / 2,
+                        srcBmp.getWidth(),
+                        srcBmp.getWidth()
+                );
+            }
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            dstBmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            final ParseFile photoFile = new ParseFile("user_photo.png", byteArray);
+            userPic.setParseFile(photoFile);
+            userPic.setVisibility(View.VISIBLE);
+            ParseUser.getCurrentUser().put(Application.USER_PHOTO, photoFile);
+            photoFile.saveInBackground();
+            ParseUser.getCurrentUser().saveInBackground();
+            //костыль для обновления юзерпика
+            finish();
         }
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        dstBmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        final ParseFile photoFile = new ParseFile("user_photo.png", byteArray);
-        userPic.setParseFile(photoFile);
-        userPic.setVisibility(View.VISIBLE);
-        ParseUser.getCurrentUser().put(Application.USER_PHOTO, photoFile);
-        photoFile.saveInBackground();
-        ParseUser.getCurrentUser().saveInBackground();
-        finish();
+
     }
 
 

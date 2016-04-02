@@ -235,11 +235,9 @@ public class MainActivity extends Activity {
                 }
             });
         }
-        //todo what is shown where there no userpic
         else {
             userpic.setVisibility(View.VISIBLE);
         }
-        //setContentView(R.layout.activity_main_blind);
     }
 
     private void doListQuery() {
