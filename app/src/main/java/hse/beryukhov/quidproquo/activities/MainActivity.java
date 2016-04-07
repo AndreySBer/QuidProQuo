@@ -3,8 +3,6 @@ package hse.beryukhov.quidproquo.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,13 +20,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +56,7 @@ public class MainActivity extends Activity {
     private String selectedPostObjectId;
     private SwipeRefreshLayout swipeRefresh;
     private Location currentLocation;
-    private Location lastLocation;
+
     // Fields for the search radius in meters
     private int radius = 1000;
     private ListView postsListView;
@@ -72,6 +64,7 @@ public class MainActivity extends Activity {
     private ProgressDialog dialog;
     private ImageView userpic;
     private DrawerLayout drawer;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +74,12 @@ public class MainActivity extends Activity {
 
         Intent intent = getIntent();
         currentLocation = intent.getParcelableExtra(Application.INTENT_EXTRA_LOCATION);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        if (currentLocation == null) {
+            fab.setVisibility(View.INVISIBLE);
+        } else {
+            fab.setVisibility(View.VISIBLE);
+        }
         String searchDistance = intent.getStringExtra(Application.INTENT_EXTRA_SEARCH_DISTANCE);
         if (searchDistance != null)
             try {
@@ -98,7 +97,7 @@ public class MainActivity extends Activity {
 
 
         //Show UserName in Menu String
-        TextView userNameTextView = (TextView) findViewById(R.id.userNameTextView);
+        //TextView userNameTextView = (TextView) findViewById(R.id.userNameTextView);
         //userNameTextView.setText(ParseUser.getCurrentUser().getUsername());
         ImageButton setLocationButton = (ImageButton) findViewById(R.id.set_location_button);
         setLocationButton.setOnClickListener(new View.OnClickListener()
@@ -112,98 +111,97 @@ public class MainActivity extends Activity {
 
         );
 
-        {
 
-            postsListView = (ListView) this.findViewById(R.id.posts_listview);
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.attachToListView(postsListView);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Location myLoc = (currentLocation == null) ? lastLocation : currentLocation;
-                    if (myLoc == null) {
-                        Toast.makeText(MainActivity.this,
-                                "We can't find your location. Please try later.", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
-                    intent.putExtra(Application.INTENT_EXTRA_LOCATION, myLoc);
-                    startActivity(intent);
+        postsListView = (ListView) this.findViewById(R.id.posts_listview);
+
+        fab.attachToListView(postsListView);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Location myLoc = currentLocation;
+                if (myLoc == null) {
+                    Toast.makeText(MainActivity.this,
+                            "We can't find your location. Please try later.", Toast.LENGTH_LONG).show();
+                    return;
                 }
-            });
-            ParseQueryAdapter.QueryFactory<QuidPost> factory =
-                    new ParseQueryAdapter.QueryFactory<QuidPost>() {
-                        public ParseQuery<QuidPost> create() {
-                            ParseQuery<QuidPost> query = QuidPost.getQuery();
-                            query.include("author");
-                            query.orderByDescending("createdAt");
-                            query.whereWithinKilometers("location", geoPointFromLocation(currentLocation), radius / METERS_PER_KILOMETER);
+                Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
+                intent.putExtra(Application.INTENT_EXTRA_LOCATION, myLoc);
+                startActivity(intent);
+            }
+        });
+        ParseQueryAdapter.QueryFactory<QuidPost> factory =
+                new ParseQueryAdapter.QueryFactory<QuidPost>() {
+                    public ParseQuery<QuidPost> create() {
+                        ParseQuery<QuidPost> query = QuidPost.getQuery();
+                        query.include("author");
+                        query.orderByDescending("createdAt");
+                        query.whereWithinKilometers("location", geoPointFromLocation(currentLocation), radius / METERS_PER_KILOMETER);
 
-                            query.setLimit(MAX_POST_SEARCH_RESULTS);
-                            return query;
-                        }
-                    };
-            postsQueryAdapter = new ParseQueryAdapter<QuidPost>(this, factory) {
-                @Override
-                public View getItemView(QuidPost post, View view, ViewGroup parent) {
-                    //Toast.makeText(MainActivity.this, "new Adapter", Toast.LENGTH_LONG).show();
-                    if (view == null) {
-                        view = View.inflate(getContext(), R.layout.quid_post_item, null);
+                        query.setLimit(MAX_POST_SEARCH_RESULTS);
+                        return query;
                     }
-                    TextView contentView = (TextView) view.findViewById(R.id.content_view);
-                    TextView usernameView = (TextView) view.findViewById(R.id.username_view);
+                };
+        postsQueryAdapter = new ParseQueryAdapter<QuidPost>(this, factory) {
+            @Override
+            public View getItemView(QuidPost post, View view, ViewGroup parent) {
+                //Toast.makeText(MainActivity.this, "new Adapter", Toast.LENGTH_LONG).show();
+                if (view == null) {
+                    view = View.inflate(getContext(), R.layout.quid_post_item, null);
+                }
+                TextView contentView = (TextView) view.findViewById(R.id.content_view);
+                TextView usernameView = (TextView) view.findViewById(R.id.username_view);
 
-                    contentView.setText(post.getName());
-                    usernameView.setText(post.getAuthor().getUsername());
+                contentView.setText(post.getName());
+                usernameView.setText(post.getAuthor().getUsername());
 
-                    TextView datePosted = (TextView) view.findViewById(R.id.dateposted_view);
-                    datePosted.setText(GetTimePassedTillNow(post.getCreatedAt(), MainActivity.this));
+                TextView datePosted = (TextView) view.findViewById(R.id.dateposted_view);
+                datePosted.setText(GetTimePassedTillNow(post.getCreatedAt(), MainActivity.this));
                     /*if (post.getAuthor() == ParseUser.getCurrentUser()) {
                         ImageButton settings = (ImageButton) view.findViewById(R.id.myPostSettingsImageButton);
                         settings.setVisibility(View.VISIBLE);
                     }*/
-                    ImageView stateImage = (ImageView) view.findViewById(R.id.postStateImageView);
-                    PostState state = post.getState();
-                    switch (state) {
-                        case ASK: {
-                            stateImage.setImageResource(R.drawable.ic_help_black_48dp);
-                            break;
-                        }
-                        case SUGGEST: {
-                            stateImage.setImageResource(R.drawable.ic_announcement_black_48dp);
-                            break;
-                        }
-                        case ADVERT: {
-                            stateImage.setImageResource(R.drawable.ic_grade_black_48dp);
-                            break;
-                        }
+                ImageView stateImage = (ImageView) view.findViewById(R.id.postStateImageView);
+                PostState state = post.getState();
+                switch (state) {
+                    case ASK: {
+                        stateImage.setImageResource(R.drawable.ic_help_black_48dp);
+                        break;
                     }
-                    //Toast.makeText(MainActivity.this, "return Adapter", Toast.LENGTH_LONG).show();
-                    warningTextView.setVisibility(View.INVISIBLE);
-                    if (dialog.isShowing()) {
-                        dialog.dismiss();
+                    case SUGGEST: {
+                        stateImage.setImageResource(R.drawable.ic_announcement_black_48dp);
+                        break;
                     }
-                    return view;
+                    case ADVERT: {
+                        stateImage.setImageResource(R.drawable.ic_grade_black_48dp);
+                        break;
+                    }
                 }
-            };
-            postsQueryAdapter.setAutoload(false);
-            postsQueryAdapter.setPaginationEnabled(false);
-
-            postsListView.setAdapter(postsQueryAdapter);
-
-            postsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    final QuidPost item = postsQueryAdapter.getItem(position);
-                    selectedPostObjectId = item.getObjectId();
-                    //Toast.makeText(MainActivity.this, selectedPostObjectId, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(MainActivity.this, PostInfoActivity.class);
-                    Log.i("item", item.getObjectId());
-                    intent.putExtra("id", item.getObjectId());
-                    startActivity(intent);
+                //Toast.makeText(MainActivity.this, "return Adapter", Toast.LENGTH_LONG).show();
+                warningTextView.setVisibility(View.INVISIBLE);
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
                 }
-            });
-        }
+                return view;
+            }
+        };
+        postsQueryAdapter.setAutoload(false);
+        postsQueryAdapter.setPaginationEnabled(false);
+
+        postsListView.setAdapter(postsQueryAdapter);
+
+        postsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final QuidPost item = postsQueryAdapter.getItem(position);
+                selectedPostObjectId = item.getObjectId();
+                //Toast.makeText(MainActivity.this, selectedPostObjectId, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, PostInfoActivity.class);
+                Log.i("item", item.getObjectId());
+                intent.putExtra("id", item.getObjectId());
+                startActivity(intent);
+            }
+        });
+
         //listener for swipe to refresh
         swipeRefresh = (SwipeRefreshLayout)
                 findViewById(R.id.swipeRefresh);
@@ -273,10 +271,9 @@ public class MainActivity extends Activity {
                     Intent share = new Intent(android.content.Intent.ACTION_SEND);
                     share.setType("text/plain");
                     //share.putExtra(Intent.EXTRA_TEXT, Html.fromHtml("I'm already using QuidProQuo. Try yourself:" + " <a href = http://andreyber.pythonanywhere.com/qpq/>".replace("/", "\\") + " http://andreyber.pythonanywhere.com/qpq/</a>"));
-                    share.putExtra(Intent.EXTRA_TEXT,"I'm already using QuidProQuo. Try yourself: http://andreyber.pythonanywhere.com/qpq/");
+                    share.putExtra(Intent.EXTRA_TEXT, "I'm already using QuidProQuo. Try yourself: http://andreyber.pythonanywhere.com/qpq/");
                     startActivity(Intent.createChooser(share, "Share post"));
                 }
-
 
                 drawer.closeDrawer(GravityCompat.START);
                 return false;
@@ -285,34 +282,6 @@ public class MainActivity extends Activity {
 
     }
 
-    /*class MyAlertDialog {
-
-        public void create(Context context) {
-            final TextView message = new TextView(context);
-            final SpannableString s =
-                    new SpannableString(context.getText(R.string.dialog_message));
-
-            Linkify.addLinks(s, Linkify.WEB_URLS);
-            message.setText(s);
-            message.setMovementMethod(LinkMovementMethod.getInstance());
-
-            new AlertDialog.Builder(context)
-                    .setTitle(R.string.nav_about)
-                    .setCancelable(true)
-                    .setIcon(android.R.drawable.ic_dialog_info)
-                    .setPositiveButton("OK", null)
-                    .setView(message)
-                    .create().show();
-        }
-
-
-    }
-
-    private void about() {
-    MyAlertDialog a = new MyAlertDialog();
-    a.create(MainActivity.this);
-
-}*/
     private void about() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setMessage(R.string.dialog_message)
@@ -332,6 +301,7 @@ public class MainActivity extends Activity {
             if (postsListView.getCount() == 0) {
                 warningTextView.setText(R.string.warning_no_records);
                 warningTextView.setVisibility(View.VISIBLE);
+                dialog.dismiss();
             } else {
                 warningTextView.setVisibility(View.INVISIBLE);
             }
@@ -371,27 +341,27 @@ public class MainActivity extends Activity {
         return new ParseGeoPoint(loc.getLatitude(), loc.getLongitude());
     }
 
-public static class ImageHelper {
-    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
-                .getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
+    public static class ImageHelper {
+        public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
+            Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
+                    .getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(output);
 
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final RectF rectF = new RectF(rect);
+            final int color = 0xff424242;
+            final Paint paint = new Paint();
+            final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+            final RectF rectF = new RectF(rect);
 
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, pixels, pixels, paint);
+            paint.setAntiAlias(true);
+            canvas.drawARGB(0, 0, 0, 0);
+            paint.setColor(color);
+            canvas.drawRoundRect(rectF, pixels, pixels, paint);
 
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+            canvas.drawBitmap(bitmap, rect, rect, paint);
 
-        return output;
+            return output;
+        }
     }
-}
 
 }

@@ -55,4 +55,5 @@
     <string name="nav_share">Поделиться</string>
     <string name="nav_about">О приложении</string>
     <string name="dialog_message">Приложение создал Андрей Берюхов. Подробнее на beryukhov.ru</string>
+    <string name="postTextLengthTooLong">Содержимое поста слишком длинное (максимально 300 символов)</string>
 </resources>

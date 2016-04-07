@@ -10,9 +10,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,6 +48,8 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_location);
+        findAddress = (Button) findViewById(R.id.addressFindButton);
+        findAddress.setEnabled(false);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -101,9 +107,26 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
                 }
             }
         });
-        final TextView fATV = (TextView) findViewById(R.id.addressEditText);
+        final EditText fATV = (EditText) findViewById(R.id.addressEditText);
 
-        findAddress = (Button) findViewById(R.id.addressFindButton);
+        fATV.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (fATV.getText().length()>0){
+                    findAddress.setEnabled(true);
+                }
+                else
+                {
+                    findAddress.setEnabled(false);
+                }
+            }
+        });
         findAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,12 +235,14 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
 
         return null;
     }
-@Override
+
+    @Override
     protected void onStart() {
         locationClient.connect();
         super.onStart();
     }
-@Override
+
+    @Override
     protected void onStop() {
         locationClient.disconnect();
         super.onStop();

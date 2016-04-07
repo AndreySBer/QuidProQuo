@@ -47,6 +47,7 @@
     <string name="CommentAdd">Add</string>
     <string name="yesterday">yesterday</string>
     <string name="postNameLengthTooLong">Name length is too long (max size is 50 chars)</string>
+    <string name="postTextLengthTooLong">Text length is too long (max size is 300 chars)</string>
     <string name="set_location">Set Location</string>
     <string name="find_location_button">Find Location Using Hardware</string>
     <string name="address_hint">Input address</string>

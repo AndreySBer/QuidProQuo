@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:rowCount="4"
-    tools:context="hse.beryukhov.quidproquo.activities.PostInfoActivity"
+    android:rowCount="6"
+    tools:context="hse.beryukhov.quidproquo.Activities.PostInfoActivity">
 
-    android:orientation="vertical">
-    <!--android:layout_column="0"
-            android:layout_row="0"-->
     <GridLayout
         android:id="@+id/menuLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_column="0"
+        android:layout_row="0"
         android:background="@color/colorPrimary"
-
+        android:columnCount="4"
         android:orientation="horizontal">
 
         <ImageButton
@@ -55,7 +53,6 @@
             android:layout_row="0"
             android:contentDescription="@string/postStateMarkerHolder"
             android:padding="8dp" />
-
         <ImageButton
             android:id="@+id/shareButton"
             android:layout_width="48dp"
@@ -67,134 +64,121 @@
             android:padding="12dp"
             android:src="@android:drawable/ic_menu_share"
             android:contentDescription="@string/ShareButtonContentDescription" />
+
     </GridLayout>
-<!--android:layout_column="0"
-        android:layout_row="1"-->
-    <ScrollView
+
+    <GridLayout
+        android:id="@+id/authorLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.55">
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="3"
+        android:columnCount="3"
+        android:orientation="horizontal">
 
-        <GridLayout
-            android:id="@+id/authorLayout"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/authorImageView"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_column="0"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_row="0"
+            android:layout_rowSpan="3"
+            android:contentDescription="@string/postStateMarkerHolder"
+            android:src="@drawable/ic_account_box_black_48dp" />
+        <TextView
+            android:id="@+id/authorNameTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:layout_row="0"
+            android:singleLine="true"
+            android:text="Author"
+            android:layout_margin="8sp"
+            android:textColor="@android:color/black"
+            android:textAppearance="@android:style/TextAppearance.Holo" />
 
-            android:columnCount="3">
+        <TextView
+            android:id="@+id/postedDateTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_row="0"
+            android:singleLine="true"
+            android:text="yesterday"
+            android:layout_margin="8sp"
+            android:layout_gravity="center_vertical" />
 
-            <ImageView
-                android:id="@+id/authorImageView"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_column="0"
-                android:layout_gravity="top|center_horizontal"
-                android:layout_row="0"
-                android:layout_rowSpan="3"
-                android:contentDescription="@string/postStateMarkerHolder"
-                android:src="@drawable/ic_account_box_black_48dp" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/postNameTextView"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_row="1"
+            android:gravity="top"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_gravity="fill_horizontal"
+            android:text="Title"
+            android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+            android:textStyle="bold|italic" />
 
-            <TextView
-                android:id="@+id/authorNameTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_gravity="fill_horizontal|center_vertical"
-                android:layout_margin="8sp"
-                android:layout_row="0"
-                android:singleLine="true"
-                android:text="Author"
-                android:textAppearance="@android:style/TextAppearance.Holo"
-                android:textColor="@android:color/black" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/descriptionText"
+            android:ems="10"
+            android:text="@string/new_post_text"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_row="2"
+            android:gravity="top"
+            android:layout_margin="8dp"
+            android:layout_gravity="fill_horizontal"
+            android:textColor="@android:color/black" />
+        <Button
+            android:id="@+id/yandexButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_row="3"
+            android:background="@color/colorAccent"
+            android:drawableRight="@android:drawable/ic_dialog_map"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:text="@string/ShowMapButton"
+            android:textColor="@android:color/white" />
+    </GridLayout>
 
-            <TextView
-                android:id="@+id/postedDateTimeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="2"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="8sp"
-                android:layout_row="0"
-                android:singleLine="true"
-                android:text="yesterday" />
-
-            <TextView
-                android:id="@+id/postNameTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill_horizontal"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_row="1"
-                android:gravity="top"
-                android:text="Title"
-                android:textAppearance="@android:style/TextAppearance.Holo.Medium"
-                android:textStyle="bold|italic" />
-
-            <TextView
-                android:id="@+id/descriptionText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill_horizontal"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_row="2"
-                android:ems="10"
-                android:gravity="top"
-                android:text="@string/new_post_text"
-                android:textColor="@android:color/black" />
-
-            <Button
-                android:id="@+id/yandexButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill_horizontal"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_row="3"
-                android:background="@color/colorAccent"
-                android:drawableRight="@android:drawable/ic_dialog_map"
-                android:paddingRight="16dp"
-                android:paddingLeft="16dp"
-                android:text="@string/ShowMapButton"
-                android:textColor="@android:color/white" />
-
-        </GridLayout>
-    </ScrollView>
-<!--android:layout_column="0"
-android:layout_row="2"
--->
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeCommentRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
+        android:layout_column="0"
         android:layout_gravity="fill_vertical"
-        android:layout_weight="1">
+        android:layout_row="4">
 
         <ListView
             android:id="@+id/commentListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp"
-            android:paddingRight="16dp" />
+            android:padding="8dp" />
     </android.support.v4.widget.SwipeRefreshLayout>
-<!--android:layout_column="0"
-android:layout_row="3"
--->
+
     <GridLayout
         android:id="@+id/commentEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_column="0"
         android:layout_margin="8dp"
-        >
+        android:layout_row="5"
+        android:columnCount="2">
 
         <EditText
             android:id="@+id/commentEditText"
@@ -222,4 +206,4 @@ android:layout_row="3"
     </GridLayout>
 
 
-</LinearLayout>
+</GridLayout>

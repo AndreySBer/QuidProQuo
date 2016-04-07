@@ -5,8 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -22,8 +25,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
@@ -31,6 +36,7 @@ import com.parse.SaveCallback;
 
 import java.util.List;
 
+import hse.beryukhov.quidproquo.Application;
 import hse.beryukhov.quidproquo.QuidComment;
 import hse.beryukhov.quidproquo.QuidPost;
 import hse.beryukhov.quidproquo.R;
@@ -131,14 +137,12 @@ public class PostInfoActivity extends Activity {
                         startActivity(intent);
                     } else {
                         // Открываем страницу приложения Яндекс.Карты в Google Play.
-                            intent = new Intent(Intent.ACTION_VIEW);
+                        intent = new Intent(Intent.ACTION_VIEW);
                         intent.setData(Uri.parse("market://details?id=ru.yandex.yandexmaps"));
                         startActivity(intent);
                     }
-                }
-                else
-                {
-                    Uri uri = Uri.parse(String.format("geo:%1$f,%2$f?z=16",location.getLatitude(),location.getLongitude()));
+                } else {
+                    Uri uri = Uri.parse(String.format("geo:%1$f,%2$f?z=16", location.getLatitude(), location.getLongitude()));
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
                 }
@@ -173,7 +177,7 @@ public class PostInfoActivity extends Activity {
                 {authorName.setText(author);}
                 else {Log.i("author",comment.getAuthor().toString());}*/
                 authorName.setText(comment.getAuthor().getUsername());
-                dateTime.setText(GetTimePassedTillNow(comment.getCreatedAt(),PostInfoActivity.this));
+                dateTime.setText(GetTimePassedTillNow(comment.getCreatedAt(), PostInfoActivity.this));
 
                 return view;
             }
@@ -303,8 +307,20 @@ public class PostInfoActivity extends Activity {
                     }
 
                     authorText.setText(thisPost.getAuthor().getUsername());
+                    ParseFile photoFile = (ParseFile) thisPost.getAuthor().get(Application.USER_PHOTO);
+                    if (photoFile != null) {
+                        photoFile.getDataInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] data, ParseException e) {
+                                Bitmap img = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                Bitmap roundImg = MainActivity.ImageHelper.getRoundedCornerBitmap(img, img.getWidth() / 2);
+                                authorImage.setImageBitmap(roundImg);
+                                authorImage.setPadding(6, 6, 6, 6);
+                            }
+                        });
+                    }
                     postName.setText(thisPost.getName());
-                    date.setText(GetTimePassedTillNow(thisPost.getCreatedAt(),PostInfoActivity.this));
+                    date.setText(GetTimePassedTillNow(thisPost.getCreatedAt(), PostInfoActivity.this));
                     descripText.setText(thisPost.getText());
                     location = new Location("");
                     location.setLatitude(thisPost.getLocation().getLatitude());

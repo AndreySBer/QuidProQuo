@@ -28,6 +28,7 @@ public class NewPostActivity extends Activity {
     private EditText postTextEditText;
 
     private static final int NAME_MAX_LENGTH = 50;
+    private static final int TEXT_MAX_LENGTH = 300;
 
     private ParseGeoPoint geoPoint;
 
@@ -74,6 +75,10 @@ public class NewPostActivity extends Activity {
         //filter on name length
         if (name.length() > NAME_MAX_LENGTH) {
             Toast.makeText(NewPostActivity.this, R.string.postNameLengthTooLong, Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (text.length() > TEXT_MAX_LENGTH) {
+            Toast.makeText(NewPostActivity.this, R.string.postTextLengthTooLong, Toast.LENGTH_LONG).show();
             return;
         }
 
