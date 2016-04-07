@@ -15,8 +15,14 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -58,6 +64,7 @@ public class MainActivity extends Activity {
     private TextView warningTextView;
     private ProgressDialog dialog;
     private ImageView userpic;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,12 +88,6 @@ public class MainActivity extends Activity {
 
         //userpic to load new activity click handler
         ImageView userpicImageView = (ImageView) findViewById(R.id.userImageView);
-        userpicImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, UserPageActivityNew.class));
-            }
-        });
 
 
         //Show UserName in Menu String
@@ -234,11 +235,49 @@ public class MainActivity extends Activity {
                     Log.i("done", "done");
                 }
             });
-        }
-        else {
+        } else {
             userpic.setVisibility(View.VISIBLE);
         }
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        userpicImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //startActivity(new Intent(MainActivity.this, UserPageActivityNew.class));
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                // Handle navigation view item clicks here.
+                int id = item.getItemId();
+
+                if (id == R.id.nav_my_posts) {
+
+                } else if (id == R.id.nav_faves) {
+
+                } else if (id == R.id.nav_comments) {
+
+                } else if (id == R.id.nav_manage) {
+                    startActivity(new Intent(MainActivity.this, UserPageActivityNew.class));
+                } else if (id == R.id.nav_share) {
+
+                }
+
+
+                drawer.closeDrawer(GravityCompat.START);
+                return false;
+            }
+        });
+
     }
+
 
     private void doListQuery() {
         if (currentLocation != null) {
@@ -269,7 +308,9 @@ public class MainActivity extends Activity {
     //there is  a code for minimizing the app on back pressing
     @Override
     public void onBackPressed() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             finishAffinity();
         } else {
             MainActivity.super.onBackPressed();
@@ -309,4 +350,5 @@ public class MainActivity extends Activity {
             return output;
         }
     }
+
 }

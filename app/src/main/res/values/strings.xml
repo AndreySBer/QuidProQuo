@@ -73,5 +73,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_new_photo">NewPhotoActivity</string>
+    <string name="navigation_drawer_open">ndo</string>
+    <string name="navigation_drawer_close">ndc</string>
 
 </resources>
