@@ -29,9 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.melnykov.fab.FloatingActionButton;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -48,7 +46,7 @@ import hse.beryukhov.quidproquo.R;
 import static hse.beryukhov.quidproquo.DataTransform.GetTimePassedTillNow;
 
 
-public class MainActivity extends Activity {
+public class MyPostsActivity extends Activity {
 
     private static final int MAX_POST_SEARCH_RESULTS = 50;
     private static final float METERS_PER_KILOMETER = 1000;
@@ -64,79 +62,33 @@ public class MainActivity extends Activity {
     private ProgressDialog dialog;
     private ImageView userpic;
     private DrawerLayout drawer;
-    private FloatingActionButton fab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_blind);
+        setContentView(R.layout.activity_my_posts_blind);
 
 
-        Intent intent = getIntent();
-        currentLocation = intent.getParcelableExtra(Application.INTENT_EXTRA_LOCATION);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        if (currentLocation == null) {
-            fab.setVisibility(View.INVISIBLE);
-        } else {
-            fab.setVisibility(View.VISIBLE);
-        }
-        String searchDistance = intent.getStringExtra(Application.INTENT_EXTRA_SEARCH_DISTANCE);
-        if (searchDistance != null)
-            try {
-                radius = Integer.parseInt(searchDistance.substring(0, searchDistance.length() - 2));
-            } catch (NumberFormatException e) {
-            }
-        warningTextView = (TextView) findViewById(R.id.warningTextView);
+        warningTextView = (TextView) findViewById(R.id.warningTextView2);
         warningTextView.setVisibility(View.INVISIBLE);
 
-
-        dialog = new ProgressDialog(MainActivity.this);
+        dialog = new ProgressDialog(MyPostsActivity.this);
         dialog.setMessage("Loading posts...");
 
         //userpic to load new activity click handler
-        ImageView userpicImageView = (ImageView) findViewById(R.id.settingsButton);
+        ImageView userpicImageView = (ImageView) findViewById(R.id.settingsButton2);
+
+        postsListView = (ListView) this.findViewById(R.id.posts_listview2);
 
 
-        //Show UserName in Menu String
-        //TextView userNameTextView = (TextView) findViewById(R.id.userNameTextView);
-        //userNameTextView.setText(ParseUser.getCurrentUser().getUsername());
-        ImageButton setLocationButton = (ImageButton) findViewById(R.id.set_location_button);
-        setLocationButton.setOnClickListener(new View.OnClickListener()
-
-                                             {
-                                                 @Override
-                                                 public void onClick(View v) {
-                                                     startLocationActivity();
-                                                 }
-                                             }
-
-        );
-
-
-        postsListView = (ListView) this.findViewById(R.id.posts_listview);
-
-        fab.attachToListView(postsListView);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Location myLoc = currentLocation;
-                if (myLoc == null) {
-                    Toast.makeText(MainActivity.this,
-                            "We can't find your location. Please try later.", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
-                intent.putExtra(Application.INTENT_EXTRA_LOCATION, myLoc);
-                startActivity(intent);
-            }
-        });
         ParseQueryAdapter.QueryFactory<QuidPost> factory =
                 new ParseQueryAdapter.QueryFactory<QuidPost>() {
                     public ParseQuery<QuidPost> create() {
                         ParseQuery<QuidPost> query = QuidPost.getQuery();
                         query.include("author");
                         query.orderByDescending("createdAt");
-                        query.whereWithinKilometers("location", geoPointFromLocation(currentLocation), radius / METERS_PER_KILOMETER);
+                        query.whereEqualTo("author", ParseUser.getCurrentUser());
 
                         query.setLimit(MAX_POST_SEARCH_RESULTS);
                         return query;
@@ -156,7 +108,7 @@ public class MainActivity extends Activity {
                 usernameView.setText(post.getAuthor().getUsername());
 
                 TextView datePosted = (TextView) view.findViewById(R.id.dateposted_view);
-                datePosted.setText(GetTimePassedTillNow(post.getCreatedAt(), MainActivity.this));
+                datePosted.setText(GetTimePassedTillNow(post.getCreatedAt(), MyPostsActivity.this));
                     /*if (post.getAuthor() == ParseUser.getCurrentUser()) {
                         ImageButton settings = (ImageButton) view.findViewById(R.id.myPostSettingsImageButton);
                         settings.setVisibility(View.VISIBLE);
@@ -196,7 +148,7 @@ public class MainActivity extends Activity {
                 final QuidPost item = postsQueryAdapter.getItem(position);
                 selectedPostObjectId = item.getObjectId();
                 //Toast.makeText(MainActivity.this, selectedPostObjectId, Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(MainActivity.this, PostInfoActivity.class);
+                Intent intent = new Intent(MyPostsActivity.this, PostInfoActivity.class);
                 Log.i("item", item.getObjectId());
                 intent.putExtra("id", item.getObjectId());
                 startActivity(intent);
@@ -205,7 +157,7 @@ public class MainActivity extends Activity {
 
         //listener for swipe to refresh
         swipeRefresh = (SwipeRefreshLayout)
-                findViewById(R.id.swipeRefresh);
+                findViewById(R.id.swipeRefresh2);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                                               @Override
                                               public void onRefresh() {
@@ -230,7 +182,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void done(byte[] data, ParseException e) {
                     Bitmap img = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    Bitmap roundImg = ImageHelper.getRoundedCornerBitmap(img, img.getWidth() / 2);
+                    Bitmap roundImg = MainActivity.ImageHelper.getRoundedCornerBitmap(img, img.getWidth() / 2);
                     userpic.setImageBitmap(roundImg);
 
                     userpic.setVisibility(View.VISIBLE);
@@ -260,18 +212,18 @@ public class MainActivity extends Activity {
                 // Handle navigation view item clicks here.
                 int id = item.getItemId();
                 if (id == R.id.nav_posts) {
+                    startActivity(new Intent(MyPostsActivity.this, MainActivity.class));
+                } else if (id == R.id.nav_my_posts) {
                     drawer.closeDrawer(GravityCompat.START);
                     return true;
-                } else if (id == R.id.nav_my_posts) {
-                    startActivity(new Intent(MainActivity.this, MyPostsActivity.class));
                 } else if (id == R.id.nav_about) {
                     about();
                 } else if (id == R.id.nav_comments) {
-                    startActivity(new Intent(MainActivity.this, MyCommentsActivity.class));
+                    startActivity(new Intent(MyPostsActivity.this, MyCommentsActivity.class));
                 } else if (id == R.id.nav_manage) {
-                    startActivity(new Intent(MainActivity.this, UserPageActivityNew.class));
+                    startActivity(new Intent(MyPostsActivity.this, UserPageActivityNew.class));
                 } else if (id == R.id.nav_share) {
-                    Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                    Intent share = new Intent(Intent.ACTION_SEND);
                     share.setType("text/plain");
                     //share.putExtra(Intent.EXTRA_TEXT, Html.fromHtml("I'm already using QuidProQuo. Try yourself:" + " <a href = http://andreyber.pythonanywhere.com/qpq/>".replace("/", "\\") + " http://andreyber.pythonanywhere.com/qpq/</a>"));
                     share.putExtra(Intent.EXTRA_TEXT, "I'm already using QuidProQuo. Try yourself: http://andreyber.pythonanywhere.com/qpq/");
@@ -286,7 +238,7 @@ public class MainActivity extends Activity {
     }
 
     private void about() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MyPostsActivity.this);
         builder.setMessage(R.string.dialog_message)
                 .setTitle(R.string.nav_about)
                 .setPositiveButton("OK", null);
@@ -295,41 +247,30 @@ public class MainActivity extends Activity {
     }
 
     private void doListQuery() {
-        if (currentLocation != null) {
-            // Refreshes the list view with new data based
-            // usually on updated location data.
 
-            dialog.show();
-            postsQueryAdapter.loadObjects();
-            if (postsListView.getCount() == 0) {
-                warningTextView.setText(R.string.warning_no_records);
-                warningTextView.setVisibility(View.VISIBLE);
-                dialog.dismiss();
-            } else {
-                warningTextView.setVisibility(View.INVISIBLE);
-            }
-        } else {
-            warningTextView.setText(R.string.warning_no_location);
+        // Refreshes the list view with new data based
+        // usually on updated location data.
+
+        dialog.show();
+        postsQueryAdapter.loadObjects();
+        if (postsListView.getCount() == 0) {
+            warningTextView.setText(R.string.warning_no_user_records);
             warningTextView.setVisibility(View.VISIBLE);
+            dialog.dismiss();
+        } else {
+            warningTextView.setVisibility(View.INVISIBLE);
         }
+
     }
 
-    //decomposition one love
-    private void startLocationActivity() {
-        Intent intent = new Intent(MainActivity.this, GetLocationActivity.class);
-        intent.putExtra(Application.INTENT_EXTRA_LOCATION, currentLocation);
-        startActivity(intent);
-    }
 
     //there is  a code for minimizing the app on back pressing
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            finishAffinity();
         } else {
-            MainActivity.super.onBackPressed();
+            startActivity(new Intent(MyPostsActivity.this, MainActivity.class));
         }
     }
 
@@ -343,28 +284,4 @@ public class MainActivity extends Activity {
     private ParseGeoPoint geoPointFromLocation(Location loc) {
         return new ParseGeoPoint(loc.getLatitude(), loc.getLongitude());
     }
-
-    public static class ImageHelper {
-        public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
-            Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
-                    .getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(output);
-
-            final int color = 0xff424242;
-            final Paint paint = new Paint();
-            final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-            final RectF rectF = new RectF(rect);
-
-            paint.setAntiAlias(true);
-            canvas.drawARGB(0, 0, 0, 0);
-            paint.setColor(color);
-            canvas.drawRoundRect(rectF, pixels, pixels, paint);
-
-            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-            canvas.drawBitmap(bitmap, rect, rect, paint);
-
-            return output;
-        }
-    }
-
 }

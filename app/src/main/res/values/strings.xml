@@ -84,5 +84,9 @@
     <string name="nav_share">Share</string>
     <string name="nav_about">About</string>
     <string name="dialog_message">Application created by Andrey Beryukhov. For more information go to beryukhov.ru</string>
+    <string name="my_posts">My Posts</string>
+    <string name="warning_no_user_records">You haven\'t written posts yet</string>
+    <string name="nav_posts">Posts nearby</string>
+    <string name="warning_no_user_comments">You haven\'t written comments yet</string>
 
 </resources>

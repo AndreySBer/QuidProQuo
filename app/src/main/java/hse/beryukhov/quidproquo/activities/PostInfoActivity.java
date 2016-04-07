@@ -170,15 +170,22 @@ public class PostInfoActivity extends Activity {
                 TextView text = (TextView) view.findViewById(R.id.commTextView);
                 TextView authorName = (TextView) view.findViewById(R.id.usernameTextView);
                 TextView dateTime = (TextView) view.findViewById(R.id.dateTimeTextView);
-
                 text.setText(comment.getText());
-                /*String author=comment.getAuthor().getUsername();
-                if (author!=null)
-                {authorName.setText(author);}
-                else {Log.i("author",comment.getAuthor().toString());}*/
                 authorName.setText(comment.getAuthor().getUsername());
                 dateTime.setText(GetTimePassedTillNow(comment.getCreatedAt(), PostInfoActivity.this));
-
+                final ImageView userPicIV = (ImageView) view.findViewById(R.id.userPicImageView);
+                ParseFile photoFile = (ParseFile) comment.getAuthor().get(Application.USER_PHOTO);
+                if (photoFile != null) {
+                    photoFile.getDataInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] data, ParseException e) {
+                            Bitmap img = BitmapFactory.decodeByteArray(data, 0, data.length);
+                            Bitmap roundImg = MainActivity.ImageHelper.getRoundedCornerBitmap(img, img.getWidth() / 2);
+                            userPicIV.setImageBitmap(roundImg);
+                            userPicIV.setPadding(6, 6, 6, 6);
+                        }
+                    });
+                }
                 return view;
             }
         };

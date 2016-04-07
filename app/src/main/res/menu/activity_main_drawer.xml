@@ -5,7 +5,9 @@
     >
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_my_posts" android:icon="@android:drawable/ic_menu_myplaces"
+        <item android:id="@+id/nav_posts" android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="@string/nav_posts" />
+        <item android:id="@+id/nav_my_posts" android:icon="@android:drawable/ic_menu_edit"
             android:title="@string/nav_my_posts" />
         <!--<item android:id="@+id/nav_faves" android:icon="@android:drawable/btn_star_big_off"
             android:title="@string/nav_faves" />-->

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="yesterday">вчера</string>
-    <string name="warning_no_records">В этом местоположении еще нет постов. Добавьте первый)</string>
-    <string name="warning_no_location">Определите местоположение, чтобы увидеть посты</string>
+    <string name="warning_no_records">В этом местоположении еще нет записей. Добавьте первый)</string>
+    <string name="warning_no_location">Определите местоположение, чтобы увидеть записи</string>
     <string name="userNameText">Ваше уникальное имя (ник)</string>
     <string name="userImageViewDescr">Картинка пользователя</string>
     <string name="Cancel">Отмена</string>
@@ -11,7 +11,7 @@
     <string name="EditProfile">Изменить профиль</string>
     <string name="SearchDistanceHint">Радиус поиска:</string>
     <string name="ShareButtonContentDescription">Поделиться</string>
-    <string name="ShowMapButton">Показать пост на карте</string>
+    <string name="ShowMapButton">Показать запись на карте</string>
     <string name="TelegramAccountHint">Ваш аккаунт в Telegram</string>
     <string name="addComent">Добавить</string>
     <string name="address_hint">Введите адрес</string>
@@ -34,9 +34,9 @@
     <string name="new_post">Добавить новую запись</string>
     <string name="new_post_name">Заголовок</string>
     <string name="new_post_text">Описание</string>
-    <string name="post">Пост</string>
-    <string name="postButton">Новый пост</string>
-    <string name="postNameLengthTooLong">Имя поста слишком длинное (максимально 50 символов)</string>
+    <string name="post">Запись</string>
+    <string name="postButton">Новая запись</string>
+    <string name="postNameLengthTooLong">Имя записи слишком длинное (максимально 50 символов)</string>
 
     <string name="signup">Зарегистрироваться</string>
     <string name="signUpButton">Зарегистрироваться</string>
@@ -55,5 +55,8 @@
     <string name="nav_share">Поделиться</string>
     <string name="nav_about">О приложении</string>
     <string name="dialog_message">Приложение создал Андрей Берюхов. Подробнее на beryukhov.ru</string>
-    <string name="postTextLengthTooLong">Содержимое поста слишком длинное (максимально 300 символов)</string>
+    <string name="postTextLengthTooLong">Содержимое записи слишком длинное (максимально 300 символов)</string>
+    <string name="nav_posts">Записи рядом</string>
+    <string name="warning_no_user_comments">Вы еще не оставляли комментариев</string>
+    <string name="warning_no_user_records">Вы еще не делали записи</string>
 </resources>

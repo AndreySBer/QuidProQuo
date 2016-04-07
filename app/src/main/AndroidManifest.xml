@@ -38,6 +38,8 @@
         <activity android:name=".activities.LogInActivity" />
         <activity android:name=".activities.SignUpActivity" />
         <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.MyPostsActivity" />
+        <activity android:name=".activities.MyCommentsActivity" />
         <activity android:name=".activities.NewPostActivity" />
 
         <activity android:name=".activities.UserPageActivityNew" />
