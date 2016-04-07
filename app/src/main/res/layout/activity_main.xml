@@ -25,17 +25,19 @@
             android:id="@+id/userImageView"
 
             android:contentDescription="@string/userImageViewDescr"
-            android:src="@drawable/ic_account_box_white_48dp"
+            android:src="@drawable/ic_menu_white_24dp"
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:layout_column="0"
-            android:layout_row="0" />
+            android:layout_row="0"
+            android:scaleType="fitCenter"
+            android:padding="12dp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@android:style/TextAppearance.Medium"
-            android:text="Large Text"
+            android:text="@string/new_posts"
             android:id="@+id/userNameTextView"
 
             android:singleLine="false"
@@ -53,7 +55,7 @@
             android:layout_height="48dp"
 
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_edit_location_white_48dp"
+            android:src="@drawable/ic_my_location_white_24dp"
             android:contentDescription="@string/postButton"
             android:background="#00ffffff"
             android:clickable="true"
@@ -62,7 +64,8 @@
             android:focusableInTouchMode="false"
             android:scaleType="fitCenter"
             android:layout_column="2"
-            android:layout_row="0" />
+            android:layout_row="0"
+            android:padding="12dp" />
 
 
     </GridLayout>

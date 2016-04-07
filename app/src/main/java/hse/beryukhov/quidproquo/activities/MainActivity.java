@@ -1,7 +1,10 @@
 package hse.beryukhov.quidproquo.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +22,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -92,11 +99,7 @@ public class MainActivity extends Activity {
 
         //Show UserName in Menu String
         TextView userNameTextView = (TextView) findViewById(R.id.userNameTextView);
-        userNameTextView.setText(ParseUser.getCurrentUser().
-
-                        getUsername()
-
-        );
+        //userNameTextView.setText(ParseUser.getCurrentUser().getUsername());
         ImageButton setLocationButton = (ImageButton) findViewById(R.id.set_location_button);
         setLocationButton.setOnClickListener(new View.OnClickListener()
 
@@ -260,14 +263,18 @@ public class MainActivity extends Activity {
 
                 if (id == R.id.nav_my_posts) {
 
-                } else if (id == R.id.nav_faves) {
-
+                } else if (id == R.id.nav_about) {
+                    about();
                 } else if (id == R.id.nav_comments) {
 
                 } else if (id == R.id.nav_manage) {
                     startActivity(new Intent(MainActivity.this, UserPageActivityNew.class));
                 } else if (id == R.id.nav_share) {
-
+                    Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                    share.setType("text/plain");
+                    //share.putExtra(Intent.EXTRA_TEXT, Html.fromHtml("I'm already using QuidProQuo. Try yourself:" + " <a href = http://andreyber.pythonanywhere.com/qpq/>".replace("/", "\\") + " http://andreyber.pythonanywhere.com/qpq/</a>"));
+                    share.putExtra(Intent.EXTRA_TEXT,"I'm already using QuidProQuo. Try yourself: http://andreyber.pythonanywhere.com/qpq/");
+                    startActivity(Intent.createChooser(share, "Share post"));
                 }
 
 
@@ -278,6 +285,42 @@ public class MainActivity extends Activity {
 
     }
 
+    /*class MyAlertDialog {
+
+        public void create(Context context) {
+            final TextView message = new TextView(context);
+            final SpannableString s =
+                    new SpannableString(context.getText(R.string.dialog_message));
+
+            Linkify.addLinks(s, Linkify.WEB_URLS);
+            message.setText(s);
+            message.setMovementMethod(LinkMovementMethod.getInstance());
+
+            new AlertDialog.Builder(context)
+                    .setTitle(R.string.nav_about)
+                    .setCancelable(true)
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setPositiveButton("OK", null)
+                    .setView(message)
+                    .create().show();
+        }
+
+
+    }
+
+    private void about() {
+    MyAlertDialog a = new MyAlertDialog();
+    a.create(MainActivity.this);
+
+}*/
+    private void about() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage(R.string.dialog_message)
+                .setTitle(R.string.nav_about)
+                .setPositiveButton("OK", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     private void doListQuery() {
         if (currentLocation != null) {
@@ -328,27 +371,27 @@ public class MainActivity extends Activity {
         return new ParseGeoPoint(loc.getLatitude(), loc.getLongitude());
     }
 
-    public static class ImageHelper {
-        public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
-            Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
-                    .getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(output);
+public static class ImageHelper {
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
+                .getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
 
-            final int color = 0xff424242;
-            final Paint paint = new Paint();
-            final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-            final RectF rectF = new RectF(rect);
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
 
-            paint.setAntiAlias(true);
-            canvas.drawARGB(0, 0, 0, 0);
-            paint.setColor(color);
-            canvas.drawRoundRect(rectF, pixels, pixels, paint);
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, pixels, pixels, paint);
 
-            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-            canvas.drawBitmap(bitmap, rect, rect, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
 
-            return output;
-        }
+        return output;
     }
+}
 
 }

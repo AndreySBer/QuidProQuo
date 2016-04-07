@@ -64,7 +64,7 @@
             android:layout_row="0"
             android:actionProviderClass="android.widget.ShareActionProvider"
             android:background="#00ffffff"
-            android:padding="8dp"
+            android:padding="12dp"
             android:src="@android:drawable/ic_menu_share"
             android:contentDescription="@string/ShareButtonContentDescription" />
     </GridLayout>

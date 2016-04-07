@@ -81,10 +81,6 @@ public class UserPageActivityNew extends Activity {
                                                         });
                                                 AlertDialog dialog = builder.create();
                                                 dialog.show();
-                                                ParseUser.logOut();
-                                                Intent intent = new Intent(UserPageActivityNew.this, DispatchActivity.class);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                startActivity(intent);
                                             }
                                         }
         );

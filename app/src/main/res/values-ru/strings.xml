@@ -45,4 +45,14 @@
     <string name="set_location">Определить местоположение</string>
     <string name="powered_by">Создатель</string>
     <string name="resetPW">Восстановить пароль</string>
+    <string name="action_settings">Настройки</string>
+    <string name="new_posts">Новые записи</string>
+    <string name="nav_comments">Мои комментарии</string>
+    <string name="nav_faves">Избранное</string>
+    <string name="nav_group_communicate">Приложение</string>
+    <string name="nav_my_posts">Мои записи</string>
+    <string name="nav_settings">Настройки профиля</string>
+    <string name="nav_share">Поделиться</string>
+    <string name="nav_about">О приложении</string>
+    <string name="dialog_message">Приложение создал Андрей Берюхов. Подробнее на beryukhov.ru</string>
 </resources>
