@@ -196,7 +196,7 @@ public class MyPostsActivity extends Activity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        //toggle.syncState();
 
         userpicImageView.setOnClickListener(new View.OnClickListener() {
             @Override

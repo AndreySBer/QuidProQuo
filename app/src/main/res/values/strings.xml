@@ -57,7 +57,7 @@
     <string name="generalInfo">GENERAL INFO</string>
     <string name="warning_no_records">In this location no records. Add first)</string>
     <string name="warning_no_location">Choose location to see posts</string>
-    <string name="reqPW"><u>Forget password?</u></string>
+    <string name="reqPW"><u>Forgot password?</u></string>
 
 
     <integer name="com_vk_sdk_AppId">5339203</integer>
@@ -88,5 +88,6 @@
     <string name="warning_no_user_records">You haven\'t written posts yet</string>
     <string name="nav_posts">Posts nearby</string>
     <string name="warning_no_user_comments">You haven\'t written comments yet</string>
+    <string name="my_comments">My Comments</string>
 
 </resources>

@@ -155,7 +155,7 @@ public class PostInfoActivity extends Activity {
                 ParseQuery<QuidComment> query = QuidComment.getQuery();
                 query.include("author");
                 query.whereEqualTo("id_post", thisPostId);
-                query.orderByDescending("createdAt");
+                query.orderByAscending("createdAt");
 
                 return query;
             }

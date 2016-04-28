@@ -37,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@android:style/TextAppearance.Medium"
-            android:text="@string/my_posts"
+            android:text="@string/my_comments"
             android:id="@+id/userNameTextView3"
 
             android:singleLine="false"

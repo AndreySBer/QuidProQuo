@@ -59,4 +59,6 @@
     <string name="nav_posts">Записи рядом</string>
     <string name="warning_no_user_comments">Вы еще не оставляли комментариев</string>
     <string name="warning_no_user_records">Вы еще не делали записи</string>
+    <string name="my_posts">Мои Записи</string>
+    <string name="my_comments">Мои Комментарии</string>
 </resources>
