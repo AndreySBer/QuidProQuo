@@ -64,9 +64,9 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
                 .build();
 
         ImageView backButton = (ImageView) findViewById(R.id.backToMainImageView);
-        if (location == null) {
+        /*if (location == null) {
             backButton.setVisibility(View.INVISIBLE);
-        }
+        }*/
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setSelection(2);
 
@@ -84,7 +84,7 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(GetLocationActivity.this, "Can't get your location due to access settings", Toast.LENGTH_LONG).show();
+                        Toast.makeText(GetLocationActivity.this, R.string.loc_access_settings_error, Toast.LENGTH_LONG).show();
                         findLocation.setClickable(false);
                         return;
                     }
@@ -92,7 +92,7 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
                 location = LocationServices.FusedLocationApi.getLastLocation(locationClient);
                 if (location != null) {
                     Log.i("GetLocActivity", "Finish after location!=null check");
-                    Toast.makeText(GetLocationActivity.this, String.format("Location setted: %1$f:%2$f", location.getLatitude(), location.getLongitude()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(GetLocationActivity.this, String.format("Location set: %1$f:%2$f", location.getLatitude(), location.getLongitude()), Toast.LENGTH_LONG).show();
                     //finish();
 
                     /*
@@ -103,7 +103,7 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
                     startActivity(intent);
                     */
                 } else {
-                    Toast.makeText(GetLocationActivity.this, "Can't get your location. Please try later or by address", Toast.LENGTH_LONG).show();
+                    Toast.makeText(GetLocationActivity.this, R.string.loc_cant_get, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -132,8 +132,7 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
             public void onClick(View v) {
 
                 if (fATV.getText().toString() == "" || fATV.getText() == null) {
-                    Toast.makeText(GetLocationActivity.this, "Please complete the address field.", Toast.LENGTH_LONG).show();
-                    return;
+                    Log.e("LocationByAddress","Null value while clicked button");
                 } else {
                     try {
                         String request = getJSON("https://geocode-maps.yandex.ru/1.x/?geocode="
@@ -169,12 +168,12 @@ public class GetLocationActivity extends Activity implements GoogleApiClient.Con
                             location.setLongitude(Double.parseDouble(pos.split(" ")[0]));
                             location.setLatitude(Double.parseDouble(pos.split(" ")[1]));
 
-                            Toast.makeText(GetLocationActivity.this, String.format("Location setted: %1$f:%2$f", location.getLatitude(), location.getLongitude()), Toast.LENGTH_LONG).show();
+                            Toast.makeText(GetLocationActivity.this, String.format("Location set: %1$f:%2$f", location.getLatitude(), location.getLongitude()), Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(GetLocationActivity.this, "Can't find this address. Try to refine the query.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(GetLocationActivity.this, R.string.loc_geocoder_error, Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
-                        Toast.makeText(GetLocationActivity.this, "Something went wrong...", Toast.LENGTH_LONG).show();
+                        Toast.makeText(GetLocationActivity.this, R.string.loc_json, Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
                 }

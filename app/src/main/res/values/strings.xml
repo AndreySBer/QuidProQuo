@@ -89,5 +89,11 @@
     <string name="nav_posts">Posts nearby</string>
     <string name="warning_no_user_comments">You haven\'t written comments yet</string>
     <string name="my_comments">My Comments</string>
+    <string name="loc_access_settings_error">Can\'t get your location due to access settings</string>
+    <string name="loc_cant_get">Can\'t get your location. Please try later or by address.</string>
+    <string name="loc_geocoder_error">Can\'t find this address. Try to refine the query.</string>
+    <string name="loc_json">Something went wrong…</string>
+    <string name="email_sent">Email with instructions was send on given e-mail.</string>
+    <string name="email_not_found">No such email found.</string>
 
 </resources>

@@ -82,9 +82,9 @@ public class LogInActivity extends Activity {
                     @Override
                     public void done(ParseException e) {
                         if (e == null)
-                            Toast.makeText(LogInActivity.this, "Email with instructions was send on given e-mail.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LogInActivity.this, R.string.email_sent, Toast.LENGTH_LONG).show();
                         else
-                            Toast.makeText(LogInActivity.this, "No such email found.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LogInActivity.this, R.string.email_not_found, Toast.LENGTH_LONG).show();
                     }
                 });
             }

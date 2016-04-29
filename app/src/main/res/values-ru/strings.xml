@@ -25,7 +25,7 @@
     <string name="editNameHint">Имя пользователя</string>
     <string name="editPasswHint">Пароль</string>
     <string name="find_address">Найти по адресу</string>
-    <string name="find_location_button">Определить местоположение через геолокацию</string>
+    <string name="find_location_button">Определить автоматически</string>
     <string name="generalInfo">ОСНОВНАЯ ИНФОРМАЦИЯ</string>
     <string name="logInButton">Войти</string>
     <string name="logOutButton">Выйти</string>
@@ -61,4 +61,10 @@
     <string name="warning_no_user_records">Вы еще не делали записи</string>
     <string name="my_posts">Мои Записи</string>
     <string name="my_comments">Мои Комментарии</string>
+    <string name="loc_access_settings_error">Невозможно определить ваше местоположение из-за настроек доступа</string>
+    <string name="loc_cant_get">Невозможно определить ваше местоположение. Попробуйте позже или через адрес</string>
+    <string name="loc_geocoder_error">Невозможно найти указанный адрес. Попробуйте уточнить запрос.</string>
+    <string name="loc_json">Что-то пошло не так…</string>
+    <string name="email_not_found">Указанный email не найден.</string>
+    <string name="email_sent">Инструкции по восстановлению пароля посланы на указанный email.</string>
 </resources>

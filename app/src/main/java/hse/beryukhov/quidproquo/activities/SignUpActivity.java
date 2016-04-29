@@ -81,7 +81,7 @@ public class SignUpActivity extends Activity {
                     Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 } else {
                     //to remove
-                    Toast.makeText(SignUpActivity.this, "All good", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(SignUpActivity.this, "All good", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(SignUpActivity.this, DispatchActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
