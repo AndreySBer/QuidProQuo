@@ -2,7 +2,10 @@ package hse.beryukhov.quidproquo.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -62,6 +65,10 @@ public class SignUpActivity extends Activity {
             Toast.makeText(this, checkRes, Toast.LENGTH_LONG).show();
             return;
         }
+        if (!isOnline()){
+            Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show();
+            return;
+        }
         //else
         //Progress Dialog
         final ProgressDialog dialog = new ProgressDialog(SignUpActivity.this);
@@ -71,14 +78,18 @@ public class SignUpActivity extends Activity {
         user.setUsername(name);
         user.setPassword(passw);
         user.setEmail(email);
-        user.put(Application.ISPREMIUM,false);
+        user.put(Application.ISPREMIUM, false);
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
                 dialog.dismiss();
                 if (e != null) {
-                    Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    if (isOnline()){
+                    Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();}
+                    else{
+                        Toast.makeText(SignUpActivity.this, R.string.no_internet, Toast.LENGTH_LONG).show();
+                    }
                 } else {
                     //to remove
                     //Toast.makeText(SignUpActivity.this, "All good", Toast.LENGTH_LONG).show();
@@ -93,5 +104,10 @@ public class SignUpActivity extends Activity {
     private String check(String name, String passw, String email) {
         return "OK";
     }
-
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
 }

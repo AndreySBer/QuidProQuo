@@ -274,7 +274,7 @@ public class MainActivity extends Activity {
                     Intent share = new Intent(android.content.Intent.ACTION_SEND);
                     share.setType("text/plain");
                     //share.putExtra(Intent.EXTRA_TEXT, Html.fromHtml("I'm already using QuidProQuo. Try yourself:" + " <a href = http://andreyber.pythonanywhere.com/qpq/>".replace("/", "\\") + " http://andreyber.pythonanywhere.com/qpq/</a>"));
-                    share.putExtra(Intent.EXTRA_TEXT, "I'm already using QuidProQuo. Try yourself: http://andreyber.pythonanywhere.com/qpq/");
+                    share.putExtra(Intent.EXTRA_TEXT, "I'm already using QuidProQuo. Try yourself: https://play.google.com/store/apps/details?id=hse.beryukhov.quidproquo");
                     startActivity(Intent.createChooser(share, "Share post"));
                 }
 

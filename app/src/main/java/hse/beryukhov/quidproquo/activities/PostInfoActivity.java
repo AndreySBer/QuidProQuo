@@ -2,12 +2,15 @@ package hse.beryukhov.quidproquo.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -242,7 +245,11 @@ public class PostInfoActivity extends Activity {
 
     private void addcomment() {
         try {
-            EditText commentText = (EditText) findViewById(R.id.commentEditText);
+            if (!isOnline()){
+                Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show();
+                return;
+            }
+            final EditText commentText = (EditText) findViewById(R.id.commentEditText);
             String text = commentText.getText().toString().trim();
 
             final ProgressDialog dialog = new ProgressDialog(PostInfoActivity.this);
@@ -265,6 +272,7 @@ public class PostInfoActivity extends Activity {
                 @Override
                 public void done(ParseException e) {
                     dialog.dismiss();
+                    commentText.setText("");
                     doCommentsQuery();
                 }
             });
@@ -344,5 +352,11 @@ public class PostInfoActivity extends Activity {
                 }
             }
         });
+    }
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

@@ -95,5 +95,6 @@
     <string name="loc_json">Something went wrong…</string>
     <string name="email_sent">Email with instructions was send on given e-mail.</string>
     <string name="email_not_found">No such email found.</string>
+    <string name="no_internet">No Internet connection</string>
 
 </resources>

@@ -2,7 +2,10 @@ package hse.beryukhov.quidproquo.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -99,7 +102,11 @@ public class LogInActivity extends Activity {
             Toast.makeText(this, checkRes, Toast.LENGTH_LONG).show();
             return;
         }
-        //else
+        if (!isOnline()){
+            Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show();
+            return;
+        }
+            //else
         //Progress dialog setting
         final ProgressDialog dialog = new ProgressDialog(LogInActivity.this);
         dialog.setMessage("Logging you in...");
@@ -110,17 +117,33 @@ public class LogInActivity extends Activity {
             public void done(ParseUser user, ParseException e) {
                 dialog.dismiss();
                 if (e != null) {
-                    Toast.makeText(LogInActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                } else {
+                    if (isOnline()) {
+                        Toast.makeText(LogInActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(LogInActivity.this, R.string.no_internet, Toast.LENGTH_LONG).show();
+                    }
+                } else
+
+                {
                     Intent intent = new Intent(LogInActivity.this, DispatchActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
+
             }
+
+
         });
     }
 
     private String check(String name, String passw) {
         return "OK";
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

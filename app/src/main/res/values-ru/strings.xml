@@ -67,4 +67,5 @@
     <string name="loc_json">Что-то пошло не так…</string>
     <string name="email_not_found">Указанный email не найден.</string>
     <string name="email_sent">Инструкции по восстановлению пароля посланы на указанный email.</string>
+    <string name="no_internet">Отсутствует подключение к интернету</string>
 </resources>
