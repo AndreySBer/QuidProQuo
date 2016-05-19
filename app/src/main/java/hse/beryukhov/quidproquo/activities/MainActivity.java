@@ -153,7 +153,12 @@ public class MainActivity extends Activity {
                 TextView usernameView = (TextView) view.findViewById(R.id.username_view);
 
                 contentView.setText(post.getName());
-                usernameView.setText(post.getAuthor().getUsername());
+                try {
+                    usernameView.setText(post.getAuthor().getUsername());
+                } catch (Exception e) {
+                    Log.e("No user in Table", e.getMessage());
+                    usernameView.setText("NA");
+                }
 
                 TextView datePosted = (TextView) view.findViewById(R.id.dateposted_view);
                 datePosted.setText(GetTimePassedTillNow(post.getCreatedAt(), MainActivity.this));

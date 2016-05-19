@@ -174,9 +174,15 @@ public class PostInfoActivity extends Activity {
                 TextView authorName = (TextView) view.findViewById(R.id.usernameTextView);
                 TextView dateTime = (TextView) view.findViewById(R.id.dateTimeTextView);
                 text.setText(comment.getText());
-                authorName.setText(comment.getAuthor().getUsername());
+                try {
+                    authorName.setText(comment.getAuthor().getUsername());
+                } catch (Exception e) {
+                    Log.e("No user in Table", e.getMessage());
+                    authorName.setText("NA");
+                }
                 dateTime.setText(GetTimePassedTillNow(comment.getCreatedAt(), PostInfoActivity.this));
                 final ImageView userPicIV = (ImageView) view.findViewById(R.id.userPicImageView);
+                try{
                 ParseFile photoFile = (ParseFile) comment.getAuthor().get(Application.USER_PHOTO);
                 if (photoFile != null) {
                     photoFile.getDataInBackground(new GetDataCallback() {
@@ -188,6 +194,9 @@ public class PostInfoActivity extends Activity {
                             userPicIV.setPadding(6, 6, 6, 6);
                         }
                     });
+                }}
+                catch (Exception e) {
+                    Log.e("No user in Table", e.getMessage());
                 }
                 return view;
             }
@@ -245,7 +254,7 @@ public class PostInfoActivity extends Activity {
 
     private void addcomment() {
         try {
-            if (!isOnline()){
+            if (!isOnline()) {
                 Toast.makeText(this, R.string.no_internet, Toast.LENGTH_LONG).show();
                 return;
             }
@@ -353,6 +362,7 @@ public class PostInfoActivity extends Activity {
             }
         });
     }
+
     public boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
