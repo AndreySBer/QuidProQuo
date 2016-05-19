@@ -1,7 +1,10 @@
 # QuidProQuo
+http://beryukhov.ru/qpq.html
 > Mobile Geo Social Service on Android Platform.
 
 > Second course project
+
+
 
 ## Functions:
 - Users management
